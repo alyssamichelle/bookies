@@ -1,5 +1,5 @@
-//= require angular.min
-//= require angularfire.min
+//= require angular
+//= require angularFire
 
 //= require jquery
 //= require bootstrap
