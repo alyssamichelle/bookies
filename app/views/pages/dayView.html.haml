@@ -1,13 +1,10 @@
 .scheduleWrapper
 
-  .dayWrapper{"ng-controller" => "scheduleController"}
+  .dayWrapper
     %a.rightArrow.dayNav &lt;
     %a.leftArrow.dayNav &gt;
 
-    Monday 12
-    .shiftWrapper
-      %a.circle.morning{"ng-click" => "shiftStuffing({id: user.id})", "ng-class" => "{'inactive': !selectedUser.enabled, 'active' : selectedUser.enabled}"}
-      %a.circle.afternoon{"ng-click" => "shiftStuffing({id: user.id})", "ng-class" => "{'inactive': !id, 'active' :'id'}"}
-      %a.circle.evening{"ng-click" => "shiftStuffing({id: user.id})", "ng-class" => "{'inactive': !id, 'active' :'id'}"}
-      %a.circle.night{"ng-click" => "shiftStuffing({id: user.id})", "ng-class" => "{'inactive': !id, 'active' :'id'}"}
-
+    %div(ng-repeat="day in schedule")
+      {{day.date | date:"EEE d"}}
+      .shiftWrapper
+        %a(href= "" class="circle {{shift.name}} shift-status-{{shift.status}}" ng-click="shiftStuffing(day,$index,current_user_id)" ng-repeat="shift in day.shifts")
