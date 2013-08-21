@@ -1,4 +1,4 @@
-== README
+# README
 
 This project is a practice run for 'bookies' my final project at Full Sail.
 This is a scheduling application for the student workers at the Full Sail Library.
