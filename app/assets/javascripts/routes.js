@@ -1,8 +1,9 @@
-bookies.config(function($routeProvider){
+bookies.config(['$routeProvider', function($routeProvider){
   console.log('routes.js running: ' , $routeProvider);
   $routeProvider
-    .when("",{
+    .when("/",{
      templateUrl: '/dayView.html',
+     controller: "scheduleController"
     })
     .when("/chat",{
       templateUrl: '/chat.html',
@@ -13,4 +14,4 @@ bookies.config(function($routeProvider){
       controller: "scheduleController"
     });
 
-});
+}]);
