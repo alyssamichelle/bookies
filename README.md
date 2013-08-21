@@ -5,12 +5,11 @@ This is a scheduling application for the student workers at the Full Sail Librar
 -letsTalk@alyssa.io
 
 
-# Welcome to Cubies on Rails
+# Welcome to bookies on Rails
 
 Rails is a web-application framework that includes everything needed to create
 database-backed web applications according to the Model-View-Control pattern.
 
-API Documentation: https://docs.google.com/document/d/1mqp14qmFJw_H5rBiEkOpAfd3GhQARuuniMTM9qAH4l4/edit?usp=sharing
 
 
 ## Getting Started
