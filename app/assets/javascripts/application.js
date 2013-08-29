@@ -1,5 +1,6 @@
 //= require angular
 //= require angularFire
+//= require sugar.min
 
 //= require jquery
 //= require bootstrap
