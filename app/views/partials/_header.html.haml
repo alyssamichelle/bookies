@@ -1,9 +1,11 @@
 %header
-  %ul.nav.nav-pills{"ng-controller" => "loginController"}
-    %li.btn.btn-primary
-      %a(href= "#/chat") HangOut
-    %li.btn.btn-primary.active
-      %a(href= "#/schedule") Scheduling
-    %li.btn.btn-primary
-      %a{"ng-click" => "log_user()"} {{loginButtonDisplay}}
+  %ul.nav.row-fluid{"ng-controller" => "loginController"}
+    %li.span3
+      %a.btn.btn-info(href= "#/chat") HangOut
+    %li.span3
+      %a.btn.btn-info.active(href= "#/schedule") Scheduling
+    %li.span3
+      %a.btn.btn-info{"href"=> "#/adminSettings" } Admin Settings
+    %li.span3
+      %a.btn.btn-info{"ng-click" => "log_user()"} {{loginButtonDisplay}}
 
