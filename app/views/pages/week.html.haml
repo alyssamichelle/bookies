@@ -1,0 +1,10 @@
+=render "partials/scheduleNav"
+.scheduleWrapper
+
+  .dayWrapper
+    %a.rightArrow.dayNav &lt;
+    %a.leftArrow.dayNav &gt;
+    %div{"ng-repeat" => "day in schedule.days"}
+      {{day.date | date:"EEE d"}}
+      .shiftWrapper
+        %a(class="circle {{shift.name}} {{shift.status}}" ng-click="shiftStuffing($parent.$index,$index,current_user_id)" ng-repeat="shift in day.shifts")
