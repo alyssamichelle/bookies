@@ -1,7 +1,16 @@
 class PagesController < ApplicationController
-  def dayView
+  def chat
+  end  
+
+  def adminSettings
   end
 
-  def chat
+  def week
+  end
+
+  def day
+  end
+
+  def month
   end
 end
