@@ -1,7 +1,6 @@
-bookies.controller('loginController', ['$rootScope', '$scope', 'firebaseCollection', 'angularFireAuth', '$timeout', function ($rootScope, $scope, firebaseCollection,angularFireAuth, $timeout){
+bookies.controller('loginController', ['$rootScope', '$scope', 'firebaseCollection', 'angularFireAuth', function ($rootScope, $scope, firebaseCollection,angularFireAuth){
 $scope.loginButtonDisplay = "Log In";
-$scope.userArray = firebaseCollection('Users');
-// $scope.userArray = new Firebase('https://anicoll-livechat.firebaseio.com/Users');
+var userArray = firebaseCollection('Users');
 
 //get log out working
 
@@ -22,10 +21,10 @@ $scope.userArray = firebaseCollection('Users');
 
     // On fb login success then run through db & check 
     // if user with that fb user id does not exists
-    $timeout(function() {
+    userArray.then(function(theRealUserArray) {
       // Figure out where a promise is already att and use it to do .done()
       //  Result : this block is only called after user exists
-      var user = $scope.userArray.getByKey('id', $rootScope.user.id);
+      var user = theRealUserArray.getByKey('id', $rootScope.user.id);
       console.log(user);
       if(!user){
         var user_obj = {};
@@ -36,7 +35,7 @@ $scope.userArray = firebaseCollection('Users');
         if($rootScope.user.user_name) user_obj.user_name = $rootScope.user.user_name;
         if($rootScope.user.id) user_obj.id = $rootScope.user.id;
       
-        $rootScope.current_user_id = $scope.userArray.add(user_obj).name();
+        $rootScope.current_user_id = theRealUserArray.add(user_obj).name();
       }else{
         $rootScope.current_user_id = user.$id;
       }

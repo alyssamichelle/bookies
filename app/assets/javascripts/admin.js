@@ -1,5 +1,7 @@
 bookies.controller('adminController', ['$rootScope','$scope', 'firebaseCollection', function ($rootScope,$scope, firebaseCollection){
-  $scope.scheduleArray = firebaseCollection('Schedule/Future');
+  firebaseCollection('Schedule/Future',1000).then(function(future){
+        $scope.scheduleArray = future;
+    });
 
   var beginningOfMonth = Date.create().beginningOfMonth();
   if (!beginningOfMonth.isSunday()) {
