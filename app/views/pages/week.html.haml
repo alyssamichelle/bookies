@@ -1,10 +1,9 @@
-=render "partials/scheduleNav"
 .scheduleWrapper
 
   .dayWrapper
-    %a.rightArrow.dayNav &lt;
-    %a.leftArrow.dayNav &gt;
-    %div{"ng-repeat" => "day in schedule.days"}
-      {{day.date | date:"EEE d"}}
+    %a.rightArrow.dayNav{"ng-disabled"=>"currentPage == 0","ng-click"=>"currentPage = currentPage - 1"} &lt;
+    %a.leftArrow.dayNav{"ng-disabled"=>"currentPage >= schedule[0].days.length/pageSize - 1","ng-click"=>"currentPage = currentPage + 1"} &gt;
+    .day{"ng-repeat" => "day in schedule[0].days | startFrom:currentPage:pageSize"}
+      %p {{day.date | date:"EEE d"}}
       .shiftWrapper
-        %a(class="circle {{shift.name}} {{shift.status}}" ng-click="shiftStuffing($parent.$index,$index,current_user_id)" ng-repeat="shift in day.shifts")
+        %a(class="circle {{shift.name}} {{shift.user_ids[current_user_id].status}}" ng-click="shiftStuffing($parent.$index,$index,current_user_id)" ng-repeat="shift in day.shifts")
