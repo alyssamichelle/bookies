@@ -10,11 +10,11 @@
       %input{"type" => "date", "ng-model"=>"month.endOfMonth", "id"=>"endOfMonth"}
 
     %div{"class"=>"formItem span2"}
-      %label{"for"=>"numberOfShiftBlocks"} Number of Shift Blocks
+      %label{"for"=>"numberOfShiftBlocks"} # Shift Blocks
       %input{"type" => "tel", "ng-model"=>"month.numberOfShiftBlocks", "id"=>"numberOfShiftBlocks"}
 
     %div{"class"=>"formItem span2"}
-      %label{"for"=>"numberOfPeoplePerShift"} End of Month
+      %label{"for"=>"numberOfPeoplePerShift"} # People
       %input{"type" => "tel", "ng-model"=>"month.numberOfPeoplePerShift", "id"=>"numberOfPeoplePerShift"}
 
   .row-fluid
@@ -26,10 +26,11 @@
       %label{"for"=>"openForAllDate"} Available for All Others On :
       %input{"type" => "date", "ng-model"=>"month.openForAllDate", "id"=>"openForAllDate"}
 
-    %span{"ng-repeat" => "n in [] | range:month.numberOfShiftBlocks"}
-      %div{"class"=>"formItem span4"}
-        %label{"for"=>"shiftNames"} Shift Name : {{$index}}
-        %input{"type" => "text", "ng-model"=>"month.shiftNames[$index]", "id"=>"shiftNames"}
+    .row-fluid
+      %div{"ng-repeat" => "n in [] | range:month.numberOfShiftBlocks"}
+        %div{"class"=>"marginPlease formItem span4"}
+          %label{"for"=>"shiftNames"} Shift Name : {{$index}}
+          %input{"type" => "text", "ng-model"=>"month.shiftNames[$index]", "id"=>"shiftNames"}
 
-    %input{"type"=>"submit", class: ' span4 btn btn-primary'}
+    %input.submitThatMonth.span12.btn.btn-primary{"type"=>"submit"}
 
