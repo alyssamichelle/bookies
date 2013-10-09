@@ -1,12 +1,10 @@
-bookies.controller('adminController', ['$rootScope','$scope', 'firebaseCollection', function ($rootScope,$scope, firebaseCollection){
-  firebaseCollection('Schedule/Future',1000).then(function(future){
-        $scope.scheduleArray = future;
-    });
+bookies.controller('scheduleBuilderController', ['$rootScope','$scope', 'angularFire', function ($rootScope,$scope, angularFire){
 
   var beginningOfMonth = Date.create().beginningOfMonth();
   if (!beginningOfMonth.isSunday()) {
     beginningOfMonth = beginningOfMonth.advance({days: 7 - beginningOfMonth.getDay()});
   }
+
   $scope.month = {};
   $scope.month.startOfMonth = beginningOfMonth.toJSON().slice(0, 10);
   $scope.month.shiftLeadOpenDate = beginningOfMonth.rewind({days: 4}).toJSON().slice(0, 10);
@@ -16,22 +14,26 @@ bookies.controller('adminController', ['$rootScope','$scope', 'firebaseCollectio
   $scope.month.numberOfPeoplePerShift = '3';
   $scope.month.shiftNames = ["Morning", "Afternoon", "Evening", ""];
 
-  console.log($scope.firstSunday);
-
   $scope.createSchedule = function(){
- 
-    //build out json based on parameters above
+    // TODO : instead of basing the name off of start of month month, base it off of start of month nearest month start
+    var currentMonth = Date.create($scope.month.startOfMonth).format('{MM}-{yyyy}');
+    var ref = new Firebase('https://anicoll-livechat.firebaseio.com/Schedule/'+ currentMonth)
+    angularFire(ref, $scope, 'month');
+
+
     var range = Date.range($scope.month.startOfMonth, $scope.month.endOfMonth);
-    // on call of the create month button run a fn that adds month info to month and then 
-    // day loop and shuff day stuff in that month
+
+    // console.log('number of weeks : ' , (range.end - range.start)% 7);
     $scope.month.days = [];
+
+    for(i = 0; i < $scope.month.numberOfShiftBlocks; i++ ){};
     // Looping for every day in the Month
     range.every('day', function(n){
       var day ={
           "date": n.format('{MM}/{dd}/{yyyy}'),
           "shifts": []
       };
-      console.log('n : ', n.format('{MM}/{dd}/{yyyy}'))
+
       // Looping for every shift in the Day
       for(i = 0; i < $scope.month.numberOfShiftBlocks; i++ ){
         var shift = {
@@ -41,10 +43,9 @@ bookies.controller('adminController', ['$rootScope','$scope', 'firebaseCollectio
         // Give Day the Shift
         day.shifts.push(shift);
       };
-      // Give Month.days Array day values
-      $scope.month.days.push(day);
+      // Give Month.weeks Array day values
+      $scope.month.days[n.format('{d}')] = day;
     });
-    // Give Firebase Schedule Array with a populated Month
-    $scope.scheduleArray.add($scope.month);
+    
   };
 }]);

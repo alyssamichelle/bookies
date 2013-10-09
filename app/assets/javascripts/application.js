@@ -1,5 +1,3 @@
-//= require angular
-//= require angularFire
 //= require sugar.min
 
 //= require jquery
@@ -7,5 +5,6 @@
 //= require turbolinks
 //= require bookies
 //= require routes
+//= require jquery.pnotify
 //= require_tree .
 

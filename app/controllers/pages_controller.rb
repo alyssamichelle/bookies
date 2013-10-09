@@ -1,16 +1,12 @@
 class PagesController < ApplicationController
-  def chat
-  end  
 
-  def adminSettings
+  def scheduleBuilder
   end
 
-  def week
+  def schedule
   end
 
-  def day
+  def signUp
   end
 
-  def month
-  end
 end

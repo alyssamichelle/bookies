@@ -1,0 +1,44 @@
+.calendarWrapper
+    %table.calendar
+        %tr
+            %td
+                %a.rightArrow{"ng-click" => "previous()"} &lt;
+            %td{"colspan" => "5"}
+                %h2 {{month}} {{year}}
+            %td
+                %a.leftArrow.next{"ng-click" => "next()"}  &gt;
+        %tr
+            %td S
+            %td M
+            %td T
+            %td W
+            %td T
+            %td F
+            %td S
+
+        %tr{"ng-repeat" => "week in weeks"}
+            %td.day{"ng-repeat" => "day in week"} {{day}}
+
+.scheduleWrapper{"ng-controller" => "scheduleController"}
+
+
+
+
+    %table.dayWrapper
+        %tr
+            %td         
+                %a.rightArrow{"ng-disabled"=>"currentDay == 0","ng-click"=>"currentDay = currentDay - 1"} &lt;
+                {{schedule.days[currentDay].date}}
+                %a.leftArrow{"ng-disabled"=>"currentDay >= schedule.days.length","ng-click"=>"currentDay = currentDay + 1"} &gt;
+        %tr
+            %td
+                %table{"ng-repeat" => "shift in schedule.days[currentDay].shifts"}
+                    %tr
+                        %th {{shift.name}}
+                    %tr
+                        %td{{"ng-repeat" => "user in shift.user_ids"}} {{user.name}} {{shift.taken}} {{shift.available}}
+                        %td{"class" => "shiftStyle {{shift.name}} {{shift.user_ids[user.id].status}}", "ng-click" => "shiftStuffing(currentDay, $index, user.id, userInfo.first_name, userInfo.last_name)", "ng-show" => "shift.taken < shift.available || shift.taken == undefined"} claim
+    
+
+
+

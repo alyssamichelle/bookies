@@ -1,8 +1,9 @@
-bookies.factory("firebaseCollection", ["angularFireCollection", "$q", "$timeout", function(angularFireCollection, $q, $timeout){
+bookies.factory("firebaseCollection", ["angularFireCollection", "$q", "$timeout","Firebase", function(angularFireCollection, $q, $timeout,Firebase){
   var collections ={};
 
   var Collection =function(url){
-    var data = angularFireCollection("https://anicoll-livechat.firebaseio.com/" + url);
+    var ref = new Firebase("https://anicoll-livechat.firebaseio.com/" + url)
+    var data = angularFireCollection(ref);
 
     data.getByKey = function(key, value) {
       for (var i = 0; i < data.length; i++) {

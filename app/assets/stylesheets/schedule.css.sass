@@ -1,9 +1,6 @@
 .scheduleWrapper
-  margin: 0 auto
-  width: 600px
-  height: 150px
-  display: block
-  border-radius: 4px
+  width: 48%
+  float: right
 
   .dayWrapper
     width: 100%
@@ -14,24 +11,12 @@
       weight: 900
     position: relative
 
-    a.dayNav
-      font:
-        weight: 100
-        size: 4em
-      display: block
-      text-decoration: none
-      line-height: 150px
-      position: absolute
-      top: 0
-      bottom: 0
-      right: 0
+    .rightArrow
+      right: auto
+      left: 0
 
-      &.rightArrow
-        right: auto
-        left: 0
-
-      &:hover
-        color: $darkBlueGrey
+    a:hover
+      color: $darkBlueGrey
 
 .shiftWrapper
   height: 100px
@@ -45,25 +30,25 @@
 .day
   text-align: center
 
-  a.circle
+  a.shiftStyle
     box-sizing: border-box
     border: 2px solid #2d2d2d
     width: 90px
-    height: 90px
+    // height: 90px
     margin: 0
-    border-radius: 90px
+    // border-radius: 90px
     float: left
     margin-right: 4px
     margin-left: 4px
 
-  a.circle:hover
+  a.shiftStyle:hover
     background:
       color: $blue
 
-  a.circle.inactive
+  a.shiftStyle.inactive
     background:
       color: $blue
 
-  a.circle.waitlisted
+  a.shiftStyle.waitlisted
     border:
       color: $blue

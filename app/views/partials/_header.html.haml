@@ -1,11 +1,11 @@
 %header
-  %ul.nav.row-fluid{"ng-controller" => "loginController"}
+  %ul.nav.row-fluid{"ng-controller" => "userController"}
     %li.span3
-      %a.btn.btn-info(href= "#/chat") HangOut
+      %a.btn.btn-info.active{"href" => "#/"} View Schedule
     %li.span3
-      %a.btn.btn-info.active(href= "#/") Scheduling
-    %li.span3
-      %a.btn.btn-info{"href"=> "#/adminSettings" } Admin Settings
+      %a.btn.btn-info{"href"=> "#/scheduleBuilder" } Create Schedule
     %li.span3
       %a.btn.btn-info{"ng-click" => "log_user()"} {{loginButtonDisplay}}
+    %li.span3
+      %a.btn.btn-info{"href"=> "#/signUp"} Sign Up
 
