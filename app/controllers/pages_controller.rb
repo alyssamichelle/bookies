@@ -7,6 +7,9 @@ class PagesController < ApplicationController
   end
 
   def signUp
+  end  
+
+  def userSettings
   end
 
 end

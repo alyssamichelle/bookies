@@ -1,56 +1,80 @@
-bookies.controller('userController', ['$rootScope', '$scope', 'angularFire', 'angularFireAuth', function ($rootScope, $scope, angularFire,angularFireAuth){
-  $scope.loginButtonDisplay = "Log In";
+bookies.controller('userController', ['$rootScope', '$scope', 'angularFire', 'angularFireAuth', '$location', function ($rootScope, $scope, angularFire,angularFireAuth, $location){
+  $scope.logIn = function(){
 
-  $scope.log_user = function(){
-    if (angularFireAuth._authenticated){
-      angularFireAuth.logout();
-      $scope.loginButtonDisplay = "Log In";
-    } else {
-      angularFireAuth.login('password').then(function(user){
-        console.log('user : :',user);
-      },function(){
-        console.log('Oh Bother, something has gone terribly wrong with sign up. Please try again.')
-      });
+    // password provider
+    angularFireAuth.login('password').then(function(user){
+    },function(){
+      if (!!!angularFireAuth.login('facebook')) console.log('Oh Bother, something has gone terribly wrong with sign up. Please try again. : :');
+    });
 
-      angularFireAuth.login('facebook').then(function(user){
-        console.log('user : :',user);
-      },function(){
-          console.log('There was an error with logging in with facebook.')
-      });
-    }
+    // facebook provider
+    angularFireAuth.login('facebook').then(function(user){
+    //call pin creator fn
+    },function(){
+        console.log('There was an error logging in with facebook.')
+    });
+
+  };
+
+  bookiesPinGenerator = function(){
+    $scope.user.password = Math.floor((Math.random()*9999)+1000);
+    return $scope.user.password;
+  };
+
+  $scope.logOut = function(){
+    angularFireAuth.logout();
+  };
+
+  $scope.$on('angularFireAuth:logout', function(evt){
+    $location.path("/");
+  });
+
+  // console.log('angularFireAuth.createUser :', angularFireAuth.createUser());
+  $scope.createUser = function(){
+    //call pin creator fn
+    $scope.user = userInfo || {};
+
+    $scope.user.password = Math.floor((Math.random()*9999)+1000).toString();
+  
+    angularFireAuth.createUser($scope.user.email, $scope.user.password, function(err, user){
+      // if(user) $location.path("#/schedule");
+      console.log('something : ', err);
+    });
+
   };
 
   $scope.$on("angularFireAuth:login", function(evt, user) {
-    console.log(user.id);
-    successNotification();
-    $scope.loginButtonDisplay = "Log Out";
-    var ref = new Firebase('https://anicoll-livechat.firebaseio.com/Users/' + user.id );
+    console.log(evt);
+    console.log(user);
+    notificationInformation = {
+      title: user.name + ' Logged In.',
+      text: evt.name
+    }
+    notification(notificationInformation);
+
+    var userRef = new Firebase('https://anicoll-livechat.firebaseio.com/Users/' + user.id );
     $rootScope.userInfo = {};
-    angularFire(ref, $rootScope, 'userInfo').then(function(){
-      console.log($rootScope.userInfo, 'scope.userInfo.length')
+    angularFire(userRef, $rootScope, 'userInfo').then(function(){
       if ($rootScope.userInfo.length == 0 || $rootScope.userInfo.length == undefined){
-        if(user.provider == "password"){
-          // take sign up info here for normal login
-        };
-        if(user.provider == "facebook"){
-          $rootScope.userInfo.birthday = $rootScope.user.birthday;
-          $rootScope.userInfo.email = $rootScope.user.email;
-          $rootScope.userInfo.first_name = $rootScope.user.first_name;
-          $rootScope.userInfo.last_name = $rootScope.user.last_name;
-          $rootScope.userInfo.user_name = $rootScope.user.username;
-        }
+      // $rootScope.userInfo = $rootScope.user;
+      $rootScope.userInfo.birthday = $rootScope.user.birthday;
+      $rootScope.userInfo.email = $rootScope.user.email;
+      $rootScope.userInfo.first_name = $rootScope.user.first_name;
+      $rootScope.userInfo.last_name = $rootScope.user.last_name;
+      $rootScope.userInfo.user_name = $rootScope.user.username;
       }
     });
+
   });
 
-  var successNotification =  function(){
+  var notification =  function(notificationInformation){
+
     $.pnotify({
-      title: 'Success! You have logged In as : ' + user.name,
-      text: 'Congratulations! You\'ve won!',
-      type: 'success',
-      icon: 'picon picon-flag-green'
+      title: notificationInformation.title || 'Congratulations',
+      text: notificationInformation.text  || 'You\'ve won!',
+      type: notificationInformation.type  || 'success',
+      icon: notificationInformation.icon || 'vampire'
     });
   };
-
 
 }]);

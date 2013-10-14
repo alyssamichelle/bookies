@@ -1,19 +1,38 @@
 header
-  margin: 0 auto 1em
+  margin-bottom: 1em
   display: block
-  width: 80%
+  color: #ccc
+  width: 100%
+  height: 3em
+  border-top: 1px solid #999
+  border-bottom: 1px solid #222
+  overflow: hidden
+  +linear-gradient(#3c3c3c, #323232)
 
-  .nav li
-    margin-bottom: .35em
+  .logo
+    float: left
+    width: 150px
+    height: 100%
+    margin: 0
 
-.btn
-  // width: 30%
-  padding: 0
-  
+    a
+      width: 100%
+      height: 100%
+      display: block
+      background: transparent image-url('logo.png') no-repeat 0 0
+      background-size: contain
+      text-indent: -100%
+
+  ul
+    list-style: none
+    float: right
+    margin: 1.5em 0 0
+    padding: 0
+
+  li 
+    float: left
+    margin-left: 1em
+
   a
-    +ellipsize()
-
-.subNav
-  margin: 0 auto
-  width: 190px
-  font-size: 24px
+    color: inherit
+    text-decoration: none

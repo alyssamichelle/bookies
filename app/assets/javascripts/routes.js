@@ -12,5 +12,9 @@ bookies.config(['$routeProvider', function($routeProvider){
     .when("/signUp",{
       templateUrl: '/signUp',
       controller: "userController"
+    })
+    .when("/userSettings",{
+      templateUrl: '/userSettings',
+      controller: "userController"
     });
 }]);

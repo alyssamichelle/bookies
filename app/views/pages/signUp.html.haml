@@ -1,7 +1,13 @@
 %h1 Welcome to bookies !
-%form{"ng-controller"=>"userController"}
-  %input{"placeholder"=>"first name", "name"=>"firstName", "type"=>"text", "ng-model"=>"user.first_name"}
-  %input{"placeholder"=>"last name", "name"=>"lastName", "type"=>"text", "ng-model"=>"user.last_name"}
-  %input{"placeholder"=>"username", "name"=>"username", "type"=>"text", "ng-model"=>"user.user_name"}
-  %input{"placeholder"=>"password", "name"=>"password", "type"=>"password"}
-  %input{"value"=>"Sign Up","type"=>"submit","ng-click"=>"log_user(user)"}
+%form{"ng-controller"=>"userController","class"=>"signUpForm"}
+  %label{"for"=>"email"} Email :
+  %input{"placeholder"=>"sausage@JimmyDean.com", "name"=>"email", "type"=>"text", "ng-model"=>"user.email"}
+  %br
+  %label{"for"=>"pin"} Pin :
+  %input{"placeholder"=>"1", "name"=>"pin1", "type"=>"password", "ng-model"=>"user.password[1]"}
+  %input{"placeholder"=>"2", "name"=>"pin2", "type"=>"password", "ng-model"=>"user.password[2]"}
+  %input{"placeholder"=>"3", "name"=>"pin3", "type"=>"password", "ng-model"=>"user.password[3]"}
+  %input{"placeholder"=>"4", "name"=>"pin4", "type"=>"password", "ng-model"=>"user.password[4]"}
+  %br
+  %input{"value"=>"Sign Up","type"=>"submit","ng-click"=>"createUser()"}
+

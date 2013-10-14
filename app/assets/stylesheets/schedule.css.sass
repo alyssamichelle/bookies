@@ -28,27 +28,33 @@
   display: inline-block
 
 .day
-  text-align: center
+  width: 100%
 
-  a.shiftStyle
-    box-sizing: border-box
-    border: 2px solid #2d2d2d
-    width: 90px
-    // height: 90px
-    margin: 0
-    // border-radius: 90px
-    float: left
-    margin-right: 4px
-    margin-left: 4px
+  &.columns-2 tr td
+    width: 50%
 
-  a.shiftStyle:hover
+  &.columns-3 tr td
+    width: 33%
+
+  &.columns-4 tr td
+    width: 25%
+
+  &.columns-5 tr td
+    width: 20%
+
+  .shift-claim-button
+    padding: 1em
+    background: #f05 image-url('50-plus@2x.png') no-repeat center center
+    background-size: 14px
+
+  .shift-claim-button:hover
     background:
       color: $blue
 
-  a.shiftStyle.inactive
+  .shift-claim-button.inactive
     background:
-      color: $blue
+      color: $greenSea
 
-  a.shiftStyle.waitlisted
+  .shift-claim-button.waitlisted
     border:
-      color: $blue
+      color: white

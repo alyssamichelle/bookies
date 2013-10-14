@@ -1,11 +1,18 @@
 %header
+  %h1.logo
+    %a{"href" => "#/"} bookies
   %ul.nav.row-fluid{"ng-controller" => "userController"}
     %li.span3
       %a.btn.btn-info.active{"href" => "#/"} View Schedule
     %li.span3
-      %a.btn.btn-info{"href"=> "#/scheduleBuilder" } Create Schedule
+      %a.btn.btn-info{"href"=> "#/scheduleBuilder" } Create Schedule    
     %li.span3
-      %a.btn.btn-info{"ng-click" => "log_user()"} {{loginButtonDisplay}}
+      %a.btn.btn-info{"href"=> "#/calendario" } Create Schedule
     %li.span3
-      %a.btn.btn-info{"href"=> "#/signUp"} Sign Up
+      %a.btn.btn-info{"ng-show"=>"user", "ng-click" => "logOut()"} Log Out
+      %a.btn.btn-info{"ng-hide"=>"user", "ng-click" => "logIn()"} Log In
+    %li.span3{"ng-show"=>"user"}
+      %a.btn.btn-info{"href"=> "#/userSettings"} Settings
+    %li.span3
+      %a.btn.btn-info{"ng-hide"=>"user", "href"=> "#/signUp"} Sign Up
 

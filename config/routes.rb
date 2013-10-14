@@ -7,5 +7,6 @@ LiveChat::Application.routes.draw do
   root :to => 'pages#index'
   get 'schedule' => 'pages#schedule'
   get 'signUp' => 'pages#signUp'
+  get 'userSettings' => 'pages#userSettings'
   get 'scheduleBuilder' => 'pages#scheduleBuilder'
 end

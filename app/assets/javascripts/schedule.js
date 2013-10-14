@@ -15,6 +15,9 @@ bookies.controller('scheduleController', ['$rootScope','$scope', 'firebaseCollec
     console.log('schedule : :', $scope.schedule); 
     var currentMonth = $scope.schedule.startOfMonth;
   }, 2000);
+  $scope.getNumber = function(num) {
+    return new Array(parseInt(num));
+  }
 
   $scope.shiftStuffing = function(day_index, shift_index, id, first_name, last_name) {
     console.log('id', id)
@@ -43,4 +46,34 @@ bookies.controller('scheduleController', ['$rootScope','$scope', 'firebaseCollec
     }
 
   };
+
+  
+  var cal = $( '#calendar' ).calendario( {
+      onDayClick : function( $el, $contentEl, dateProperties ) {
+
+        for( var key in dateProperties ) {
+          console.log( key + ' = ' + dateProperties[ key ] );
+        }
+
+      },
+      caldata : codropsEvents
+    } ),
+    $month = $( '#custom-month' ).html( cal.getMonthName() ),
+    $year = $( '#custom-year' ).html( cal.getYear() );
+
+  $( '#custom-next' ).on( 'click', function() {
+    cal.gotoNextMonth( updateMonthYear );
+  } );
+  $( '#custom-prev' ).on( 'click', function() {
+    cal.gotoPreviousMonth( updateMonthYear );
+  } );
+  $( '#custom-current' ).on( 'click', function() {
+    cal.gotoNow( updateMonthYear );
+  } );
+
+  function updateMonthYear() {        
+    $month.html( cal.getMonthName() );
+    $year.html( cal.getYear() );
+  }
+
 }]);

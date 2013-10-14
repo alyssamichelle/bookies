@@ -1,0 +1,14 @@
+%div.userSettingsPage{"ng-show"=> "user", "ng-controller"=>"userController"}
+  %h1 Settings
+  %h2 {{user.name}}
+  %form
+    %div{"ng-repeat"=>"(title, information) in userInfo"}
+      %label {{title}} :
+      %input{"ng-model"=>"information"}
+
+  %form
+    %input{"ng-model" => "userInfo.first_name"}
+    %input{"ng-model" => "userInfo.last_name"}
+    %input{"ng-model" => "userInfo.email"}
+    %input{"ng-model" => "userInfo.birthday"}
+

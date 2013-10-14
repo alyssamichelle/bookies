@@ -26,3 +26,11 @@
   overflow: hidden
   text-overflow: ellipsis
   white-space: no-wrap
+
+=linear-gradient($top, $bottom)
+  background-color: $top
+  background-image: -webkit-gradient(linear, 50% 0%, 50% 100%, color-stop(0%, $top), color-stop(100%, $bottom))
+  background-image: -webkit-linear-gradient($top, $bottom)
+  background-image: -moz-linear-gradient($top, $bottom)
+  background-image: -o-linear-gradient($top, $bottom)
+  background-image: linear-gradient($top, $bottom)
