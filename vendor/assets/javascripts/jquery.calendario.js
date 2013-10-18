@@ -39,7 +39,7 @@
 		months : [ 'January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December' ],
 		monthabbrs : [ 'Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec' ],
 		// choose between values in options.weeks or options.weekabbrs
-		displayWeekAbbr : false,
+		displayWeekAbbr : true,
 		// choose between values in options.months or options.monthabbrs
 		displayMonthAbbr : false,
 		// left most day in the calendar
@@ -157,7 +157,7 @@
 					
 					if ( day <= monthLength && ( i > 0 || j >= p ) ) {
 
-						inner += '<span class="fc-date">' + day + '</span><span class="fc-weekday">' + this.options.weekabbrs[ j + this.options.startIn > 6 ? j + this.options.startIn - 6 - 1 : j + this.options.startIn ] + '</span>';
+						inner += '<span class="fc-date ' + day + '">' + day + '</span><span class="fc-weekday">' + this.options.weekabbrs[ j + this.options.startIn > 6 ? j + this.options.startIn - 6 - 1 : j + this.options.startIn ] + '</span>';
 
 						// this day is:
 						var strdate = ( this.month + 1 < 10 ? '0' + ( this.month + 1 ) : this.month + 1 ) + '-' + ( day < 10 ? '0' + day : day ) + '-' + this.year,
@@ -186,7 +186,9 @@
 						cellClasses += 'fc-content';
 					}
 
-					html += cellClasses !== '' ? '<div class="' + cellClasses + '">' : '<div>';
+					// understand this line
+					// html += cellClasses !== '' ? '<div class="' + cellClasses + '">' : '<div>';
+					html += cellClasses !== '' ? '<div id="' + (day-1) + '"class="' + cellClasses + '">' : '<div>';
 					html += inner;
 					html += '</div>';
 

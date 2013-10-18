@@ -1,15 +1,141 @@
+bookies.controller('scheduleController', ['$rootScope','$scope', 'firebaseCollection', 'angularFire', function ($rootScope,$scope, firebaseCollection, angularFire){
+  $scope.currentDay = {};
+  $scope.currentDay.day = Date.create('today').rewind({month:1}).format('{d}');
+  $scope.currentDay.month = Date.create('today').rewind({month:1}).format('{MM}');
+  $scope.currentDay.year = Date.create('today').rewind({month:1}).format('{yyyy}');
 
-bookies.controller('calendarioController', ['$rootScope','$scope' function ($rootScope, $scope){
+  console.log('$scope.currentDay', $scope.currentDay);
+  
 
-  $rootScope.Calendario = function( options, element ) {
+  // var when = Date.create('september 2013');
+  // var theDate = when.format('{MM}-{yyyy}');
+  var today = Date.create('today');
+  var lastMonth = today.rewind({month : 1});
+  // make when = to the month/year displaying on the calendar
+  // good defaults if it doesnt exist in firebase yet
+  var when = lastMonth.format('{MM}-{yyyy}');
+  console.log('when : ', when);
+
+  var ref = new Firebase('https://anicoll-livechat.firebaseio.com/Schedule/' + when);
+  angularFire(ref, $scope, 'schedule').then(function(){
+
+    console.log('schedule', $scope.schedule);
+
+    var currentMonth = $scope.schedule.startOfMonth;
+    $scope.displayDate = $scope.schedule.days[$scope.currentDay.day].date;
+  }, function(){
+    console.log('There was an error when trying to get the months information.');
+  });
+
+  $scope.nextDay = function(){
+    $scope.currentDay.day++;
+    $scope.displayDateChange();
+  };
+
+  $scope.prevDay = function(){
+    $scope.currentDay.day--;
+    $scope.displayDateChange();
+  };
+
+  $scope.displayDateChange = function(){
+    cal.getCell( $scope.currentDay.day ).addClass('displayDate');
+    $scope.displayDate = $scope.schedule.days[$scope.currentDay.day].date;
+    console.log('currentDay', $scope.currentDay);
+  };
+
+  $scope.getNumber = function(num) {
+    return new Array(parseInt(num));
+  }
+
+  $scope.shiftStuffing = function(day_index, shift_index, id, first_name, last_name) {
+    console.log('id', id)
+    var user_ids = function()
+    {
+      // TODO: Fix this someday
+      // He re be Dragons.
+      $scope.schedule.days[day_index].shifts[shift_index].user_ids = $scope.schedule.days[day_index].shifts[shift_index].user_ids || {};
+      $scope.schedule.days[day_index].shifts[shift_index].user_ids[id] = $scope.schedule.days[day_index].shifts[shift_index].user_ids[id] || {};
+      return $scope.schedule.days[day_index].shifts[shift_index].user_ids[id];
+    }
+    var taken = function(change)
+    {
+      $scope.schedule.days[day_index].shifts[shift_index].taken = $scope.schedule.days[day_index].shifts[shift_index].taken || 0;
+      $scope.schedule.days[day_index].shifts[shift_index].taken += change;
+
+    }
+    
+    if (user_ids().status == 'inactive') {
+      taken(-1);
+      delete  $scope.schedule.days[day_index].shifts[shift_index].user_ids[id];
+    } else {
+      taken(1);
+      user_ids().status = 'inactive';
+      user_ids().name = first_name + ' ' + last_name;
+    }
+
+  };
+
+
+
+  var cal = $( '#calendar' ).calendario( {
+      onDayClick : function( $el, $contentEl, dateProperties ) {
+
+        for( var key in dateProperties ) {
+          console.log( key + ' = ' + dateProperties[ key ] );
+        }
+
+      },
+      caldata : codropsEvents
+    } ),
+    $month = $( '#custom-month' ).html( cal.getMonthName() ),
+    $year = $( '#custom-year' ).html( cal.getYear() );
+
+  $scope.nextMonth = function(){
+    cal.gotoNextMonth( updateMonthYear );
+  };
+
+  $scope.prevMonth = function(){
+    cal.gotoPreviousMonth( updateMonthYear );
+  };
+
+  $scope.current = function(){
+    cal.gotoNow( updateMonthYear );
+  };
+
+  function updateMonthYear() {
+    $month.html( cal.getMonthName() );
+    $year.html( cal.getYear() );
+  }
+
+/**
+ * Here Be The Biggest Dragons Of All
+ * Sincerely,
+ * Alyssa
+**/
+  
+
+  $.Calendario = function( options, element ) {
     
     this.$el = $( element );
-    $scope.el = angular.element(element);
     this._init( options );
     
   };
 
-  $rootScope.Calendario.defaults = {
+  // the options
+  $.Calendario.defaults = {
+    /*
+    you can also pass:
+    month : initialize calendar with this month (1-12). Default is today.
+    year : initialize calendar with this year. Default is today.
+    caldata : initial data/content for the calendar.
+    caldata format:
+    {
+      'MM-DD-YYYY' : 'HTML Content',
+      'MM-DD-YYYY' : 'HTML Content',
+      'MM-DD-YYYY' : 'HTML Content'
+      ...
+    }
+    */
     weeks : [ 'Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday' ],
     weekabbrs : [ 'Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat' ],
     months : [ 'January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December' ],
@@ -23,12 +149,13 @@ bookies.controller('calendarioController', ['$rootScope','$scope' function ($roo
     startIn : 1,
     onDayClick : function( $el, $content, dateProperties ) { return false; }
   };
-  $rootScope.Calendario.meat = function(){
+
+  $.Calendario.prototype = {
 
     _init : function( options ) {
       
       // options
-      this.options = $.extend( true, {}, $rootScope.Calendario.defaults, options );
+      this.options = $.extend( true, {}, $.Calendario.defaults, options );
 
       this.today = new Date();
       this.month = ( isNaN( this.options.month ) || this.options.month == null) ? this.today.getMonth() : this.options.month - 1;
@@ -163,7 +290,7 @@ bookies.controller('calendarioController', ['$rootScope','$scope' function ($roo
 
           // understand this line
           // html += cellClasses !== '' ? '<div class="' + cellClasses + '">' : '<div>';
-          html += cellClasses !== '' ? '<div id="' + (day-1) + '"class="' + cellClasses + '">' : '<div>';
+          html += cellClasses !== '' ? '<div ng-model = "$scope." id="' + (day-1) + '"class="' + cellClasses + '">' : '<div>';
           html += inner;
           html += '</div>';
 
@@ -302,8 +429,70 @@ bookies.controller('calendarioController', ['$rootScope','$scope' function ($roo
     }
 
   };
-
-  $rootScope.calendarioCrap = $.Calendario;
-
   
+  var logError = function( message ) {
+
+    if ( window.console ) {
+
+      window.console.error( message );
+    
+    }
+
+  };
+  
+  $.fn.calendario = function( options ) {
+
+    var instance = $.data( this, 'calendario' );
+    
+    if ( typeof options === 'string' ) {
+      
+      var args = Array.prototype.slice.call( arguments, 1 );
+      
+      this.each(function() {
+      
+        if ( !instance ) {
+
+          logError( "cannot call methods on calendario prior to initialization; " +
+          "attempted to call method '" + options + "'" );
+          return;
+        
+        }
+        
+        if ( !$.isFunction( instance[options] ) || options.charAt(0) === "_" ) {
+
+          logError( "no such method '" + options + "' for calendario instance" );
+          return;
+        
+        }
+        
+        instance[ options ].apply( instance, args );
+      
+      });
+    
+    } 
+    else {
+    
+      this.each(function() {
+        
+        if ( instance ) {
+
+          instance._init();
+        
+        }
+        else {
+
+          instance = $.data( this, 'calendario', new $.Calendario( options, this ) );
+        
+        }
+
+      });
+    
+    }
+    
+    return instance;
+    
+  };
+  
+
+
 }]);

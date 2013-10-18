@@ -1,20 +1,46 @@
 bookies.controller('scheduleController', ['$rootScope','$scope', 'firebaseCollection', 'angularFire', function ($rootScope,$scope, firebaseCollection, angularFire){
-  var date = Date.create('september 2013');
-  var when = date.format('{MM}-{yyyy}');
+  $scope.currentDay = {};
+  $scope.currentDay.day = Date.create('today').rewind({month:1}).format('{d}');
+  $scope.currentDay.month = Date.create('today').rewind({month:1}).format('{MM}');
+  $scope.currentDay.year = Date.create('today').rewind({month:1}).format('{yyyy}');
+
+  console.log('$scope.currentDay', $scope.currentDay);
+  
+
+  // var when = Date.create('september 2013');
+  // var theDate = when.format('{MM}-{yyyy}');
+  var today = Date.create('today');
+  var lastMonth = today.rewind({month : 1});
+  var when = lastMonth.format('{MM}-{yyyy}');
+  console.log('when : ', when);
+
   var ref = new Firebase('https://anicoll-livechat.firebaseio.com/Schedule/' + when);
+  angularFire(ref, $scope, 'schedule').then(function(){
 
-  // if above when(month/year) does not exist
-  // try loading the previous month(only back 6 month ago though)
+    console.log('schedule', $scope.schedule);
 
-  angularFire(ref, $scope, 'schedule');
-  // $scope.currentUserId = $rootScope.user.id;
-  // console.log('current user id : :', $scope.currentUserId);
-  $scope.currentDay = parseInt(Date.create('today').rewind({day : 5}).format('{d}'));
-
-  setTimeout(function(){
-    console.log('schedule : :', $scope.schedule); 
     var currentMonth = $scope.schedule.startOfMonth;
-  }, 2000);
+    $scope.displayDate = $scope.schedule.days[$scope.currentDay.day].date;
+  }, function(){
+    console.log('There was an error when trying to get the months information.');
+  });
+
+  $scope.nextDay = function(){
+    $scope.currentDay.day++;
+    $scope.displayDateChange();
+  };
+
+  $scope.prevDay = function(){
+    $scope.currentDay.day--;
+    $scope.displayDateChange();
+  };
+
+  $scope.displayDateChange = function(){
+    $rootScope.calendarioPrototype.getCell( $scope.currentDay.day ).addClass('displayDate');
+    $scope.displayDate = $scope.schedule.days[$scope.currentDay.day].date;
+    console.log('currentDay', $scope.currentDay);
+  };
+
   $scope.getNumber = function(num) {
     return new Array(parseInt(num));
   }
@@ -47,7 +73,8 @@ bookies.controller('scheduleController', ['$rootScope','$scope', 'firebaseCollec
 
   };
 
-  
+
+
   var cal = $( '#calendar' ).calendario( {
       onDayClick : function( $el, $contentEl, dateProperties ) {
 
@@ -58,22 +85,24 @@ bookies.controller('scheduleController', ['$rootScope','$scope', 'firebaseCollec
       },
       caldata : codropsEvents
     } ),
-    $month = $( '#custom-month' ).html( cal.getMonthName() ),
-    $year = $( '#custom-year' ).html( cal.getYear() );
+    $month = $( '#custom-month' ).html( $rootScope.calendarioPrototype.getMonthName() ),
+    $year = $( '#custom-year' ).html( $rootScope.calendarioPrototype.getYear() );
 
-  $( '#custom-next' ).on( 'click', function() {
-    cal.gotoNextMonth( updateMonthYear );
-  } );
-  $( '#custom-prev' ).on( 'click', function() {
-    cal.gotoPreviousMonth( updateMonthYear );
-  } );
-  $( '#custom-current' ).on( 'click', function() {
-    cal.gotoNow( updateMonthYear );
-  } );
+  $scope.nextMonth = function(){
+    $rootScope.calendarioPrototype.gotoNextMonth( updateMonthYear );
+  };
 
-  function updateMonthYear() {        
-    $month.html( cal.getMonthName() );
-    $year.html( cal.getYear() );
+  $scope.prevMonth = function(){
+    $rootScope.calendarioPrototype.gotoPreviousMonth( updateMonthYear );
+  };
+
+  $scope.current = function(){
+    $rootScope.calendarioPrototype.gotoNow( updateMonthYear );
+  };
+
+  function updateMonthYear() {
+    $month.html( $rootScope.calendarioPrototype.getMonthName() );
+    $year.html( $rootScope.calendarioPrototype.getYear() );
   }
 
 }]);

@@ -3,7 +3,7 @@
 @font-face {
   font-family: 'fontawesome-selected';
   src: url("../font/fontawesome-selected.eot");
-  src: url("../font/fontawesome-selected.eot?#iefix") format('embedded-opentype'), url("../font/fontawesome-selected.woff") format('woff'), url("../font/fontawesome-selected.ttf") format('truetype'), url("../font/fontawesome-selected.svg#fontawesome-selected") format('svg');
+  /*src: url("../font/fontawesome-selected.eot?#iefix") format('embedded-opentype'), url("../font/fontawesome-selected.woff") format('woff'), url("../font/fontawesome-selected.ttf") format('truetype'), url("../font/fontawesome-selected.svg#fontawesome-selected") format('svg');*/
   font-weight: normal;
   font-style: normal;
 }
@@ -19,7 +19,7 @@
 	height: 100%;
 }
 
-.fc-calendar .fc-head {
+.fc-calendar .fc-head, header {
 	height: 30px;
 	line-height: 30px;
 	background: #ccc;
