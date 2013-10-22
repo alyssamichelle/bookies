@@ -6,7 +6,7 @@ class PagesController < ApplicationController
   def schedule
   end
 
-  def signUp
+  def logIn
   end  
 
   def userSettings
