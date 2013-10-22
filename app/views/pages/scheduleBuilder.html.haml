@@ -3,34 +3,34 @@
   .row-fluid
     %div{"class"=>"formItem span4"}
       %label{"for"=>"startOfMonth"} Start of Month
-      %input{"type" => "date", "ng-model"=>"month.startOfMonth", "id"=>"startOfMonth"}
+      %input{"type" => "date", "ng-model"=>"form_month.startOfMonth", "id"=>"startOfMonth"}
 
     %div{"class"=>"formItem span4"}
       %label{"for"=>"endOfMonth"} End of Month
-      %input{"type" => "date", "ng-model"=>"month.endOfMonth", "id"=>"endOfMonth"}
+      %input{"type" => "date", "ng-model"=>"form_month.endOfMonth", "id"=>"endOfMonth"}
 
     %div{"class"=>"formItem span2"}
       %label{"for"=>"numberOfShiftBlocks"} # Shift Blocks
-      %input{"type" => "tel", "ng-model"=>"month.numberOfShiftBlocks", "id"=>"numberOfShiftBlocks"}
+      %input{"type" => "tel", "ng-model"=>"form_month.numberOfShiftBlocks", "id"=>"numberOfShiftBlocks"}
 
     %div{"class"=>"formItem span2"}
       %label{"for"=>"numberOfPeoplePerShift"} # People
-      %input{"type" => "tel", "ng-model"=>"month.numberOfPeoplePerShift", "id"=>"numberOfPeoplePerShift"}
+      %input{"type" => "tel", "ng-model"=>"form_month.numberOfPeoplePerShift", "id"=>"numberOfPeoplePerShift"}
 
   .row-fluid
     %div{"class"=>"formItem span4"}
       %label{"for"=>"shiftLeadOpenDate"} Available for Shift Leads On :
-      %input{"type" => "date", "ng-model"=>"month.shiftLeadOpenDate", "id"=>"shiftLeadOpenDate"}
+      %input{"type" => "date", "ng-model"=>"form_month.shiftLeadOpenDate", "id"=>"shiftLeadOpenDate"}
 
     %div{"class"=>"formItem span4"}
       %label{"for"=>"openForAllDate"} Available for All Others On :
-      %input{"type" => "date", "ng-model"=>"month.openForAllDate", "id"=>"openForAllDate"}
+      %input{"type" => "date", "ng-model"=>"form_month.openForAllDate", "id"=>"openForAllDate"}
 
     .row-fluid
-      %div{"ng-repeat" => "n in [] | range:month.numberOfShiftBlocks"}
+      %div{"ng-repeat" => "n in [] | range:form_month.numberOfShiftBlocks"}
         %div{"class"=>"marginPlease formItem span4"}
           %label{"for"=>"shiftNames"} Shift Name : {{$index}}
-          %input{"type" => "text", "ng-model"=>"month.shiftNames[$index]", "id"=>"shiftNames"}
+          %input{"type" => "text", "ng-model"=>"form_month.shiftNames[$index]", "id"=>"shiftNames"}
 
-    %input.submitThatMonth.span12.btn.btn-primary{"type"=>"submit"}
+    %input.submitThatMonthspan12.btn.btn-primary{"type"=>"submit"}
 

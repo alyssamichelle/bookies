@@ -8,7 +8,6 @@
 //= require jquery.pnotify
 
 //= require modernizr.custom.63321
-//= require data
 
 //= require_tree .
 

@@ -3,13 +3,15 @@ bookies.controller('userController', ['$rootScope', '$scope', 'angularFire', 'an
 
     // password provider
     angularFireAuth.login('password').then(function(user){
+      $location.path("/schedule");
     },function(){
-      if (!!!angularFireAuth.login('facebook')) console.log('Oh Bother, something has gone terribly wrong with sign up. Please try again. : :');
+      console.log('Oh Bother, something has gone terribly wrong with sign up. Please try again.');
     });
 
     // facebook provider
     angularFireAuth.login('facebook').then(function(user){
     //call pin creator fn
+      $location.path("/schedule");
     },function(){
         console.log('There was an error logging in with facebook.')
     });
@@ -26,7 +28,7 @@ bookies.controller('userController', ['$rootScope', '$scope', 'angularFire', 'an
   };
 
   $scope.$on('angularFireAuth:logout', function(evt){
-    $location.path("/");
+    $location.path("/logIn");
   });
 
   // console.log('angularFireAuth.createUser :', angularFireAuth.createUser());

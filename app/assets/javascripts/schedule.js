@@ -1,108 +1,149 @@
-bookies.controller('scheduleController', ['$rootScope','$scope', 'firebaseCollection', 'angularFire', function ($rootScope,$scope, firebaseCollection, angularFire){
-  $scope.currentDay = {};
-  $scope.currentDay.day = Date.create('today').rewind({month:1}).format('{d}');
-  $scope.currentDay.month = Date.create('today').rewind({month:1}).format('{MM}');
-  $scope.currentDay.year = Date.create('today').rewind({month:1}).format('{yyyy}');
+bookies.controller('scheduleController', ['$rootScope','$scope', 'angularFire', function ($rootScope, $scope, angularFire){
+  var monthModifier = 0;
+  var id = first_name = last_name = '';
+  $scope.Date = Date;
+  $scope.Object = Object;
+  // $scope.popUpMessage = {message: 'testing testing testing testing testing testing'};
 
-  console.log('$scope.currentDay', $scope.currentDay);
-  
+  var monthBuilder = function(start){
+    $scope.today = Date.create().addMonths(monthModifier)
+    var start = $scope.today.clone().beginningOfMonth()
+      , end   = $scope.today.clone().endOfMonth();
 
-  // var when = Date.create('september 2013');
-  // var theDate = when.format('{MM}-{yyyy}');
-  var today = Date.create('today');
-  var lastMonth = today.rewind({month : 1});
-  var when = lastMonth.format('{MM}-{yyyy}');
-  console.log('when : ', when);
+    $scope.month = $scope.today.format('{MM}');
+    $scope.monthFull = $scope.today.format('{Month}');
+    $scope.year = $scope.today.format('{yyyy}');
 
-  var ref = new Firebase('https://anicoll-livechat.firebaseio.com/Schedule/' + when);
-  angularFire(ref, $scope, 'schedule').then(function(){
+    // If the first day is not Sunday //
+    var dayOfWeek = start.getDay()
+    if (dayOfWeek !== 0) start.addDays(-dayOfWeek);
 
-    console.log('schedule', $scope.schedule);
+    // Get the weeks and loop through them //
+    var weeksDateRange = Date.range(start, end).eachWeek();
+    $scope.weeks = [];
 
-    var currentMonth = $scope.schedule.startOfMonth;
-    $scope.displayDate = $scope.schedule.days[$scope.currentDay.day].date;
-  }, function(){
-    console.log('There was an error when trying to get the months information.');
-  });
+    for (var i in weeksDateRange) {
+      $scope.weeks[i] = [];
+      start = Date.create(weeksDateRange[i]);
+      end   = start.clone().endOfWeek();
+      // console.log('WEEK', parseInt(i) + 1);
 
-  $scope.nextDay = function(){
-    $scope.currentDay.day++;
-    $scope.displayDateChange();
-  };
-
-  $scope.prevDay = function(){
-    $scope.currentDay.day--;
-    $scope.displayDateChange();
-  };
-
-  $scope.displayDateChange = function(){
-    $rootScope.calendarioPrototype.getCell( $scope.currentDay.day ).addClass('displayDate');
-    $scope.displayDate = $scope.schedule.days[$scope.currentDay.day].date;
-    console.log('currentDay', $scope.currentDay);
-  };
-
-  $scope.getNumber = function(num) {
-    return new Array(parseInt(num));
-  }
-
-  $scope.shiftStuffing = function(day_index, shift_index, id, first_name, last_name) {
-    console.log('id', id)
-    var user_ids = function()
-    {
-      // TODO: Fix this someday
-      // He re be Dragons.
-      $scope.schedule.days[day_index].shifts[shift_index].user_ids = $scope.schedule.days[day_index].shifts[shift_index].user_ids || {};
-      $scope.schedule.days[day_index].shifts[shift_index].user_ids[id] = $scope.schedule.days[day_index].shifts[shift_index].user_ids[id] || {};
-      return $scope.schedule.days[day_index].shifts[shift_index].user_ids[id];
+      // Get the days and loop through them
+      var days = Date.range(start, end).eachDay();
+      for (var ii in days) {
+        var day = Date.create(days[ii]);
+        $scope.weeks[i].push(Date.parse(day));
+        // console.log(day.format('short'));
+      }
     }
-    var taken = function(change)
-    {
-      $scope.schedule.days[day_index].shifts[shift_index].taken = $scope.schedule.days[day_index].shifts[shift_index].taken || 0;
-      $scope.schedule.days[day_index].shifts[shift_index].taken += change;
-
-    }
-    
-    if (user_ids().status == 'inactive') {
-      taken(-1);
-      delete  $scope.schedule.days[day_index].shifts[shift_index].user_ids[id];
-    } else {
-      taken(1);
-      user_ids().status = 'inactive';
-      user_ids().name = first_name + ' ' + last_name;
-    }
-
+    firebaseCall();
   };
 
+  var firebaseCall = function(){
+    // Getting the FireBase Schedule For the displaying month //
+    var ref = new Firebase('https://anicoll-livechat.firebaseio.com/Schedule/' + $scope.month +'-' + $scope.year);
+    console.log('ref', ref);
 
-
-  var cal = $( '#calendar' ).calendario( {
-      onDayClick : function( $el, $contentEl, dateProperties ) {
-
-        for( var key in dateProperties ) {
-          console.log( key + ' = ' + dateProperties[ key ] );
-        }
-
-      },
-      caldata : codropsEvents
-    } ),
-    $month = $( '#custom-month' ).html( $rootScope.calendarioPrototype.getMonthName() ),
-    $year = $( '#custom-year' ).html( $rootScope.calendarioPrototype.getYear() );
-
-  $scope.nextMonth = function(){
-    $rootScope.calendarioPrototype.gotoNextMonth( updateMonthYear );
+    $scope.schedule = {};
+    angularFire(ref, $scope, 'schedule').then(function(){
+      console.log('schedule', $scope.schedule);
+    }, function(){
+      console.log('There was an error when trying to get the months information.');
+    });
   };
 
-  $scope.prevMonth = function(){
-    $rootScope.calendarioPrototype.gotoPreviousMonth( updateMonthYear );
+  monthBuilder();
+
+
+  var getUserInfo = function(){
+    id = $scope.user.id;
+    first_name = $rootScope.userInfo.first_name;
+    last_name = $rootScope.userInfo.last_name;
+  };
+
+  $scope.shiftStuffing = function(currentDay, shift_index, status) {
+    console.log('shift index', shift_index)
+    if(status == 'inactive'){
+      console.log('You are already signed up for this shift');
+      return;
+    }else{
+
+      getUserInfo();
+      var day = Date.create(currentDay).format('{d}');
+
+      // $scope...user_ids = itself or {}
+      $scope.schedule.days[day].shifts[shift_index].user_ids = $scope.schedule.days[day].shifts[shift_index].user_ids || {};
+      // $scope...user_ids[id] = itself or {}
+      $scope.schedule.days[day].shifts[shift_index].user_ids[id] = $scope.schedule.days[day].shifts[shift_index].user_ids[id] || {};
+      // Adding a status and name to the user_id[id] for easy access to those two pieces of information
+      $scope.schedule.days[day].shifts[shift_index].user_ids[id].status = 'inactive';
+      $scope.schedule.days[day].shifts[shift_index].user_ids[id].name = first_name + ' ' + last_name;
+      // Returning the user_ids[id] array we just added to (or newly created)
+      // TO-DO : Does this need to be returned ??
+      return $scope.schedule.days[day].shifts[shift_index].user_ids[id];
+    };
+  };
+
+  // La Methods Of Awesome //
+  $scope.previous = function(){
+    monthModifier--;
+    monthBuilder();
+  };
+
+  $scope.next = function(){
+    monthModifier++;
+    monthBuilder();
   };
 
   $scope.current = function(){
-    $rootScope.calendarioPrototype.gotoNow( updateMonthYear );
+    //make this go to current day
   };
 
-  function updateMonthYear() {
-    $month.html( $rootScope.calendarioPrototype.getMonthName() );
-    $year.html( $rootScope.calendarioPrototype.getYear() );
-  }
+  $scope.getNumber = function(num) {
+    var intNum = parseInt(num, 10);
+    array = new Array(intNum);
+    // this is bc it would not let us repeat on an array with duplicate values
+    // angular error on ng-repeat version 1.2.0-rc.3 (did not exist in 1.0.8)
+    for (var i = 0; i < intNum; i++) {
+      array[i] = i;
+    }
+    return array;
+  };
+
+  $scope.isCurrentMonth = function(day){
+    return Date.create(day).format('{MM}-{YYYY}') === $scope.today.format('{MM}-{YYYY}');
+  };
+
+  $scope.createClaimButtons = function(shift, index){
+    if(typeof shift.user_ids === 'undefined') shift.user_ids = {};
+    if(typeof shift.available === 'undefined') shift.available = 0;
+    var claimButtonNeeded = (shift.available - Object.keys(shift.user_ids).length) >= (index + 1);
+    console.log(shift.available,Object.keys(shift.user_ids).length, index, claimButtonNeeded )
+    return claimButtonNeeded;
+  };
+
+  $scope.popUp = function(day, shift){
+    console.log('day', day);
+    console.log('shift', shift);
+
+    $scope.popUpMessage = {};
+    $scope.popUpMessage.message = "Are You Sure You Want To Drop This Shift ?";
+    $scope.popUpMessage.Agree = "Yes";
+    $scope.popUpMessage.Disagree = "No";
+    console.log('hello', $scope.popUpMessage);
+
+    return $scope.showPopUp = true;
+  };
+
+  $scope.closePopUp = function(){
+    return $scope.popUpMessage = false;
+  };
+
+  $scope.dropShift = function(day, shift){
+    
+    getUserInfo();
+
+    delete  $scope.schedule.days[day].shifts[shift].user_ids[id];
+  };
 
 }]);

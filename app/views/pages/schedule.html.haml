@@ -1,37 +1,44 @@
-.container
-  .calendarioWrapper{"ng-controller" => "calendarioController"}
-    / Codrops top bar
-    .codrops-top.clearfix
-    / / Codrops top bar
+.container{"ng-controller" => "scheduleController"}
+  .calendarWrapper
     .custom-calendar-wrap.custom-calendar-full
-      .custom-header.clearfix
+      .custom-header
         %h2 Schedule
         %h3.custom-month-year
-          %span#custom-month.custom-month
-          %span#custom-year.custom-year
+          %span#custom-month.custom-month {{monthFull}}
+          %span#custom-year.custom-year {{year}}
           %nav
-            %span#custom-prev.custom-prev{"ng-click"=>"prevMonth()"}
-            %span#custom-next.custom-next{"ng-click"=>"nextMonth()"}
+            %span#custom-prev.custom-prev{"ng-click" => "previous()"}
+            %span#custom-next.custom-next{"ng-click" => "next()"}
             %span#custom-current.custom-current{"title" => "Go to current date", "ng-click"=>"current()"}
+            
       #calendar.fc-calendar-container
+        .calendar.fc-calendar.fc-five-rows
+          .fc-head
+            %div Sun
+            %div Mon
+            %div Tue
+            %div Wed
+            %div Th
+            %div Fr
+            %div Sat
+        
+          .fc-body
+            .fc-row{"ng-repeat" => "week in weeks"}
+              %div{"ng-repeat" => "currentDay in week", "ng-model"=>"currentDay"} 
+                %span.fc-date{"ng-class" => "{hide:!isCurrentMonth(currentDay)}"} {{ Date.create(currentDay).format('{d}') }}
+                %span.fc-weekday{"ng-class" => "{hide:!isCurrentMonth(currentDay)}"} {{ Date.create(currentDay).format('{dow}') }}
+                .shifts{"class"=>"columns-{{schedule.days[Date.create(currentDay).getDate()].shifts.length}}"}
+                  %div.shift{"ng-repeat" => "shift in schedule.days[Date.create(currentDay).getDate()].shifts", "class"=>"columns-{{shift.available}}"}
+                    %h3 {{shift.name}}
+                    %span{"ng-repeat" => "user in shift.user_ids", "ng-click" => "popUp(currentDay,$index)"} {{user.name}}
+                    / %div.shift-claim-button{"ng-repeat" => "i in getNumber(shift.available)"}
+                    .shift-claim-button{"class" => "{{shift.name}} {{shift.user_ids[user.id].status}}", "ng-repeat" => "i in getNumber(shift.available)", "ng-click" => "shiftStuffing(currentDay, shift.id, shift.user_ids[user.id].status)", "ng-show" => "createClaimButtons(shift, $index)"}
+                    // TO-DO change from ng-hide, to style diff inside create claim button, with a please sign in
 
 
-  .scheduleWrapper{"ng-controller" => "scheduleController"}
-    %table.dayWrapper
-      %tr
-        %td         
-          %a.rightArrow{"ng-disabled"=>"currentDay.day == 0","ng-click"=>"prevDay()"} &lt;
 
-          %h3{"ng-model"=>"displayDate", "ng-change" =>"displayDateChange(displayDate)"} {{displayDate}}
-
-          %a.leftArrow{"ng-disabled"=>"currentDay.day >= schedule.days.length","ng-click"=>"nextDay()"} &gt;
-      %tr
-        %td
-          %table.day{"class" => "columns-{{shift.available}}", "ng-repeat" => "shift in schedule.days[currentDay.day].shifts"}
-            %tr
-              %th{"colspan" => "{{shift.available}}"} {{shift.name}}
-            %tr
-              %td{{"ng-repeat" => "user in shift.user_ids"}}
-                %div {{user.name}}
-
-              %td.shift-claim-button{{"class" => "{{shift.name}} {{shift.user_ids[user.id].status}}", "ng-repeat" => "i in getNumber(shift.available)", "ng-click" => "shiftStuffing(currentDay.day, $index, user.id, userInfo.first_name, userInfo.last_name)", "ng-show" => "shift.taken < ($index + 1) || shift.taken == undefined"}}
+  .pop-up{"ng-show" => "popUpMessage"}
+    .inner-pop-up
+      .message {{popUpMessage.message}}
+      %a{"ng-click" => "closePopUp()"} cancel
+      %button{"ng-click" => "dropShift(day, shift)"} Drop That Shift!
