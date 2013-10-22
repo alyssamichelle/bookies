@@ -3,11 +3,17 @@
   %label{"for"=>"email"} Email :
   %input{"placeholder"=>"sausage@JimmyDean.com", "name"=>"email", "type"=>"text", "ng-model"=>"user.email"}
   %br
+  %label{"for"=>"first_name"} First Name :
+  %input{"placeholder"=>"Jimmy", "name"=>"first_name", "type"=>"text", "ng-model"=>"user.first_name"}
+  %br
+  %label{"for"=>"last_name"} Last Name :
+  %input{"placeholder"=>"Dean", "name"=>"last_name", "type"=>"text", "ng-model"=>"user.last_name"}
+  %br
   %label{"for"=>"pin"} Pin :
-  %input{"placeholder"=>"1", "name"=>"pin1", "type"=>"password", "ng-model"=>"user.password[1]"}
-  %input{"placeholder"=>"2", "name"=>"pin2", "type"=>"password", "ng-model"=>"user.password[2]"}
-  %input{"placeholder"=>"3", "name"=>"pin3", "type"=>"password", "ng-model"=>"user.password[3]"}
-  %input{"placeholder"=>"4", "name"=>"pin4", "type"=>"password", "ng-model"=>"user.password[4]"}
+  %input{"placeholder"=>"1", "name"=>"pin1", "type"=>"password", "ng-model"=>"user.password.a"}
+  %input{"placeholder"=>"2", "name"=>"pin2", "type"=>"password", "ng-model"=>"user.password.b"} 
+  %input{"placeholder"=>"3", "name"=>"pin3", "type"=>"password", "ng-model"=>"user.password.c"}
+  %input{"placeholder"=>"4", "name"=>"pin4", "type"=>"password", "ng-model"=>"user.password.d"}
   %br
   %input{"value"=>"Sign Up","type"=>"submit","ng-click"=>"createUser()"}
 
