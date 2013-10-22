@@ -1,4 +1,4 @@
-bookies.controller('userController', ['$rootScope', '$scope', 'angularFire', 'angularFireAuth', '$location', function ($rootScope, $scope, angularFire,angularFireAuth, $location){
+bookies.controller('userController', ['$rootScope', '$scope', 'angularFire', 'angularFireAuth', '$location', function ($rootScope, $scope, angularFire, angularFireAuth, $location){
   $scope.logIn = function(){
 
     // password provider
@@ -7,20 +7,6 @@ bookies.controller('userController', ['$rootScope', '$scope', 'angularFire', 'an
     },function(){
       console.log('Oh Bother, something has gone terribly wrong with sign up. Please try again.');
     });
-
-    // facebook provider
-    angularFireAuth.login('facebook').then(function(user){
-    //call pin creator fn
-      $location.path("/schedule");
-    },function(){
-        console.log('There was an error logging in with facebook.')
-    });
-
-  };
-
-  bookiesPinGenerator = function(){
-    $scope.user.password = Math.floor((Math.random()*9999)+1000);
-    return $scope.user.password;
   };
 
   $scope.logOut = function(){
@@ -34,13 +20,24 @@ bookies.controller('userController', ['$rootScope', '$scope', 'angularFire', 'an
   // console.log('angularFireAuth.createUser :', angularFireAuth.createUser());
   $scope.createUser = function(){
     //call pin creator fn
-    $scope.user = userInfo || {};
+    var parsedPassword = $scope.user.password.a + $scope.user.password.b + $scope.user.password.c + $scope.user.password.d;
+    console.log($scope.user.email, parsedPassword);
 
-    $scope.user.password = Math.floor((Math.random()*9999)+1000).toString();
-  
-    angularFireAuth.createUser($scope.user.email, $scope.user.password, function(err, user){
-      // if(user) $location.path("#/schedule");
+    angularFireAuth.createUser($scope.user.email, parsedPassword, function(err, user){
+      if(user){
+        var userRef = new Firebase('https://anicoll-livechat.firebaseio.com/Users/' + user.id );
+        $rootScope.userInfo = {};
+        angularFire(userRef, $rootScope, 'userInfo').then(function(){
+          if ($rootScope.userInfo.length == 0 || $rootScope.userInfo.length == undefined){
+            $rootScope.userInfo.email = $scope.user.email;
+            $rootScope.userInfo.first_name = $scope.user.first_name;
+            $rootScope.userInfo.last_name = $scope.user.last_name;
+          }
+        });
+        $location.path("#/schedule")
+      }else{
       console.log('something : ', err);
+      }
     });
 
   };
@@ -53,19 +50,10 @@ bookies.controller('userController', ['$rootScope', '$scope', 'angularFire', 'an
       text: evt.name
     }
     notification(notificationInformation);
-
+    // if rootscope.userInfo already exists dont create it again
     var userRef = new Firebase('https://anicoll-livechat.firebaseio.com/Users/' + user.id );
     $rootScope.userInfo = {};
-    angularFire(userRef, $rootScope, 'userInfo').then(function(){
-      if ($rootScope.userInfo.length == 0 || $rootScope.userInfo.length == undefined){
-      // $rootScope.userInfo = $rootScope.user;
-      $rootScope.userInfo.birthday = $rootScope.user.birthday;
-      $rootScope.userInfo.email = $rootScope.user.email;
-      $rootScope.userInfo.first_name = $rootScope.user.first_name;
-      $rootScope.userInfo.last_name = $rootScope.user.last_name;
-      $rootScope.userInfo.user_name = $rootScope.user.username;
-      }
-    });
+    angularFire(userRef, $rootScope, 'userInfo').then(function(){});
 
   });
 
