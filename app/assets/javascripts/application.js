@@ -6,6 +6,7 @@
 //= require routes
 
 //= require jquery.pnotify
+//= require jquery.slabtext
 
 //= require modernizr.custom.63321
 

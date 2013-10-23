@@ -36,7 +36,7 @@ bookies.controller('userController', ['$rootScope', '$scope', 'angularFire', 'an
         });
         $location.path("#/schedule")
       }else{
-      console.log('something : ', err);
+      console.log('Error : ', err);
       }
     });
 
@@ -66,5 +66,14 @@ bookies.controller('userController', ['$rootScope', '$scope', 'angularFire', 'an
       icon: notificationInformation.icon || 'vampire'
     });
   };
+
+  $scope.slabTextIfy = function(){
+    $('.slab').slabText().css({'text-transform' : 'uppercase'});
+    return true;
+  };
+
+  if($('.slab')) setTimeout(function() {$scope.slabTextIfy()}, 300);
+
+    
 
 }]);
