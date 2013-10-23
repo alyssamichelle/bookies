@@ -1,29 +1,23 @@
-%h1 Welcome to bookies !
-%form{"ng-controller"=>"userController","class"=>"signUpForm"}
-  %label{"for"=>"email"} Email :
-  %input{"placeholder"=>"sausage@JimmyDean.com", "name"=>"email", "type"=>"text", "ng-model"=>"user.email"}
-  %br
-  %label{"for"=>"first_name"} First Name :
-  %input{"placeholder"=>"Jimmy", "name"=>"first_name", "type"=>"text", "ng-model"=>"user.first_name"}
-  %br
-  %label{"for"=>"last_name"} Last Name :
-  %input{"placeholder"=>"Dean", "name"=>"last_name", "type"=>"text", "ng-model"=>"user.last_name"}
-  %br
-  %label{"for"=>"pin"} Pin :
-  %input{"placeholder"=>"1", "name"=>"pin1", "type"=>"password", "ng-model"=>"user.password.a"}
-  %input{"placeholder"=>"2", "name"=>"pin2", "type"=>"password", "ng-model"=>"user.password.b"} 
-  %input{"placeholder"=>"3", "name"=>"pin3", "type"=>"password", "ng-model"=>"user.password.c"}
-  %input{"placeholder"=>"4", "name"=>"pin4", "type"=>"password", "ng-model"=>"user.password.d"}
-  %br
-  %input{"value"=>"Sign Up","type"=>"submit","ng-click"=>"createUser()"}
+%div.formWrapper
+  %form.signUpForm{"ng-controller"=>"userController"}
+    %h1.slab{"ng-show"=>"slabTextIfy()"} Welcome to bookies!
+    %input{"placeholder"=>"email@emailMcEmailerson", "name"=>"email", "type"=>"email", "ng-model"=>"user.email"}
+    %div.names
+      %input.first_name{"placeholder"=>"First Name", "name"=>"first_name", "type"=>"text", "ng-model"=>"user.first_name"}
+      %input.last_name{"placeholder"=>"Last Name", "name"=>"last_name", "type"=>"text", "ng-model"=>"user.last_name"}
+    %br
+    %div.password
+      %span.slab.pin{"ng-show" => "slabTextIfy()"} Pin:
+      %span.passwordInputs
+        %input{"placeholder"=>"1", "name"=>"password", "type"=>"password", "ng-model"=>"user.password.a"}
+        %input{"placeholder"=>"2", "name"=>"password", "type"=>"password", "ng-model"=>"user.password.b"} 
+        %input{"placeholder"=>"3", "name"=>"password", "type"=>"password", "ng-model"=>"user.password.c"}
+        %input{"placeholder"=>"4", "name"=>"password", "type"=>"password", "ng-model"=>"user.password.d"}
 
-%ul 
-  %li.span3
-    %span Log In with
-    %a{"ng-click" => "logIn()"} Facebook
-  %li.span3
-    %span Not a User ?
-    %a.btn.btn-info{"ng-hide"=>"user", "href"=> "#/signUp"} Sign Up !
+    %input.slab{"ng-show"=>"slabTextIfy()", "value"=>"Schedule to your hearts content!","type"=>"submit","ng-click"=>"createUser()"} 
 
-  / login with fb function
+      %div.login
+        Not a User?
+        %a{"ng-hide"=>"user", "href"=> "#/logIn"} Log In!
+
 
