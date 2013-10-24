@@ -19,22 +19,26 @@ bookies.controller('userController', ['$rootScope', '$scope', 'angularFire', 'an
 
   // console.log('angularFireAuth.createUser :', angularFireAuth.createUser());
   $scope.createUser = function(){
+
+
     //call pin creator fn
     var parsedPassword = $scope.user.password.a + $scope.user.password.b + $scope.user.password.c + $scope.user.password.d;
-    console.log($scope.user.email, parsedPassword);
+    console.log($scope.user.email, parsedPassword, $rootScope.userInfo);
+    // First we are creating a user with angularFireAuth who either returns a user object or an error
 
     angularFireAuth.createUser($scope.user.email, parsedPassword, function(err, user){
       if(user){
         var userRef = new Firebase('https://anicoll-livechat.firebaseio.com/Users/' + user.id );
         $rootScope.userInfo = {};
         angularFire(userRef, $rootScope, 'userInfo').then(function(){
-          if ($rootScope.userInfo.length == 0 || $rootScope.userInfo.length == undefined){
+          if($rootScope.userInfo.length == 0 || $rootScope.userInfo.length == undefined){
             $rootScope.userInfo.email = $scope.user.email;
             $rootScope.userInfo.first_name = $scope.user.first_name;
             $rootScope.userInfo.last_name = $scope.user.last_name;
+            $rootScope.userInfo.password = parsedPassword;
           }
         });
-        $location.path("#/schedule")
+        $location.path("/schedule")
       }else{
       console.log('Error : ', err);
       }
@@ -51,9 +55,10 @@ bookies.controller('userController', ['$rootScope', '$scope', 'angularFire', 'an
     }
     notification(notificationInformation);
     // if rootscope.userInfo already exists dont create it again
-    var userRef = new Firebase('https://anicoll-livechat.firebaseio.com/Users/' + user.id );
-    $rootScope.userInfo = {};
-    angularFire(userRef, $rootScope, 'userInfo').then(function(){});
+    
+    // var userRef = new Firebase('https://anicoll-livechat.firebaseio.com/Users/' + user.id );
+    // $rootScope.userInfo = {};
+    // angularFire(userRef, $rootScope, 'userInfo').then(function(){});
 
   });
 
@@ -68,12 +73,10 @@ bookies.controller('userController', ['$rootScope', '$scope', 'angularFire', 'an
   };
 
   $scope.slabTextIfy = function(){
-    $('.slab').slabText().css({'text-transform' : 'uppercase'});
+    setTimeout(function() {
+      $('.slab').slabText().css({'text-transform' : 'uppercase'});
+    }, 0);
     return true;
   };
-
-  if($('.slab')) setTimeout(function() {$scope.slabTextIfy()}, 300);
-
-    
 
 }]);
