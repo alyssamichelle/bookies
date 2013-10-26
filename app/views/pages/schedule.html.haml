@@ -7,6 +7,7 @@
           %span#custom-month.custom-month {{monthFull}}
           %span#custom-year.custom-year {{year}}
           %nav
+            / %a#custom-current.custom-current{"title" => "Print This Month", "href"=>"/schedulePrint"} Print
             %span#custom-prev.custom-prev{"ng-click" => "previous()"}
             %span#custom-next.custom-next{"ng-click" => "next()"}
             %span#custom-current.custom-current{"title" => "Go to current date", "ng-click"=>"current()"}

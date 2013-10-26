@@ -1,0 +1,212 @@
+// la clearfixå
+.formWrapper:after , .signUpForm:after
+  content: ""
+  display: block
+  clear: both
+
+.formWrapper
+  margin: 0 auto
+  width: 70%
+  max-width: 600px
+  font-size: 1.3em
+  position: relative
+
+
+.signUpForm
+  width: 100%
+
+
+  h1
+    font-size: 0.8em
+    text-transform: uppercase
+    padding: 0
+    float: left
+    width: 100%
+  h2
+    width: 80%
+    float: right
+
+  input
+    margin: 8px 0
+    border-radius: 4px
+    padding: 2px 0 2px 4px
+    font-size: 1em
+
+
+  input[type = email]
+    width: 100%
+
+  div.names
+    width: 100%
+
+    input.first_name
+      width: 48%
+      float: left
+      
+    input.last_name
+      width: 48%
+      float: right
+
+  div.password
+    float: left
+    clear: left
+    width: 100%
+
+    span.pin
+      font-size: 2em
+      font-weight: bold
+      float: left
+      width: 10%
+      padding: 0
+      margin: 0
+      text-align: right
+
+    span.passwordInputs
+      float: right
+      width: 70%
+      padding: 0
+      margin: 0
+
+      input[type = password]
+        width: 25%
+        text-align: center
+        margin: 0
+        padding: 0
+        -webkit-appearance: none
+        float: right
+
+
+  input[type=submit]
+    color: #A9A9A9
+    width: 50%
+    float: right
+    -webkit-appearance: none
+    background: none
+    border: none
+    box-shadow: none
+    margin: 0
+
+  .login
+    font-size: 0.8em
+    position: absolute
+    bottom: 0
+    left: 0
+
+
+    a
+      text-decoration: underline
+    a:hover
+      color: #ccc
+
+// Revamped styles of AWESOME
+
+.formWrapper
+  width: 80%
+
+form, form.signUpForm
+  border: 1px solid #ddd
+  border-radius: 20px
+  overflow: hidden
+
+  > h1
+    padding: 20px
+    background: rgba(255,255,255,1)
+    box-shadow: inset 0 1px 0 rgba(255,255,255,0.2)
+    font-weight: 300
+    text-align: center
+    text-shadow: white 0 1px 1px
+
+  .fields-container
+    clear: left
+    padding: 20px
+    background: rgba(255,255,255,0.5)
+
+    &:after
+      clear: both
+      content: ''
+      display: block
+
+    input
+      margin: 0 0 30px
+      padding: 0.5em 1em
+      background: rgba(255,255,255,0.95)
+      border: 1px solid #ddd
+      border-radius: 3px
+
+      &:focus
+        background: white
+        outline: none
+
+      &[type=submit]
+        width: auto
+        margin-bottom: 50px
+        padding: 0.5em 1em
+        background: linear-gradient(#241f22, #2f2420)
+        color: #FFF
+        cursor: pointer
+
+        &:hover
+          color: #FFF5AA
+          text-shadow: #FFF5AA 0 0 3px
+
+    .names
+      position: relative
+
+      &:before, &:after
+        width: 100%
+        height: 1px
+        content: ''
+        display: block
+        background: #ddd
+
+      &:before
+        top: -15px
+        position: absolute
+
+      &:after
+        top: -15px
+        position: relative
+        clear: both
+
+    .password
+      &:after
+        top: -15px
+        position: relative
+        clear: both
+        width: 100%
+        height: 1px
+        content: ''
+        display: block
+        background: #ddd
+
+      .pin
+        font-weight: 300
+        text-shadow: white 0 1px 1px
+
+      .passwordInputs input[type=password]
+        float: left
+        width: 22%
+        margin: 0 4% 30px 0
+        padding: 0.5em 1em
+
+        &:last-child
+          margin-right: 0
+
+    .login
+      left: 20px
+      bottom: 20px
+
+      a
+        color: #555
+        margin-left: 0.5em
+
+        &:hover
+          color: #fff
+          text-shadow: rgba(255,255,255,0.5) 0 0 3px
+
+
+// More Z
+// 
+
+.fc-calendar
+  background: white

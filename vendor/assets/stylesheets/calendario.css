@@ -23,7 +23,7 @@
 	height: 30px;
 	line-height: 30px;
 	background: #ccc;
-	color: #fff;
+	color: #ccc;
 }
 
 .fc-calendar .fc-body {
@@ -33,12 +33,12 @@
 	height: -moz-calc(100% - 30px);
 	height: -webkit-calc(100% - 30px);
 	height: calc(100% - 30px);
-	border: 1px solid #ddd;
+	border: 10px solid #000;
 }
 
 .fc-calendar .fc-row {
 	width: 100%;
-	border-bottom: 1px solid #ddd;
+	border-bottom: 1px solid #000;
 }
 
 .fc-four-rows .fc-row  {

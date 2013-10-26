@@ -1,11 +1,12 @@
 bookies.controller('userController', ['$rootScope', '$scope', 'angularFire', 'angularFireAuth', '$location', function ($rootScope, $scope, angularFire, angularFireAuth, $location){
   $scope.logIn = function(){
+    $scope.user.password = $scope.user.pw_a + $scope.user.pw_b + $scope.user.pw_c + $scope.user.pw_d;
 
     // password provider
-    angularFireAuth.login('password').then(function(user){
-      $location.path("/schedule");
-    },function(){
-      console.log('Oh Bother, something has gone terribly wrong with sign up. Please try again.');
+    angularFireAuth.login('password', $scope.user).then(function(){
+      userInfoCreation($scope.user);
+    },function(err){
+      console.log('Oh Bother, something has gone terribly wrong with sign up. Please try again.', err);
     });
   };
 
@@ -17,40 +18,40 @@ bookies.controller('userController', ['$rootScope', '$scope', 'angularFire', 'an
     $location.path("/logIn");
   });
 
-  // console.log('angularFireAuth.createUser :', angularFireAuth.createUser());
   $scope.createUser = function(){
-
-
-    //call pin creator fn
-    var parsedPassword = $scope.user.password.a + $scope.user.password.b + $scope.user.password.c + $scope.user.password.d;
-    console.log($scope.user.email, parsedPassword, $rootScope.userInfo);
+    $scope.user.password = $scope.user.pw_a + $scope.user.pw_b + $scope.user.pw_c + $scope.user.pw_d;
+    // console.log($scope.user.email, $scope.user.password, $rootScope.userInfo);
     // First we are creating a user with angularFireAuth who either returns a user object or an error
-
-    angularFireAuth.createUser($scope.user.email, parsedPassword, function(err, user){
+    angularFireAuth.createUser($scope.user.email, $scope.user.password, function(err, user){
+      //can I just set the user that I receive back to $scope.user ?
       if(user){
-        var userRef = new Firebase('https://anicoll-livechat.firebaseio.com/Users/' + user.id );
-        $rootScope.userInfo = {};
-        angularFire(userRef, $rootScope, 'userInfo').then(function(){
-          if($rootScope.userInfo.length == 0 || $rootScope.userInfo.length == undefined){
-            $rootScope.userInfo.email = $scope.user.email;
-            $rootScope.userInfo.first_name = $scope.user.first_name;
-            $rootScope.userInfo.last_name = $scope.user.last_name;
-            $rootScope.userInfo.password = parsedPassword;
-          }
-        });
-        $location.path("/schedule")
+        userInfoCreation(user);
       }else{
       console.log('Error : ', err);
       }
     });
-
   };
 
+  var userInfoCreation = function(user){
+    $rootScope.userInfo = {};
+    var userRef = new Firebase('https://anicoll-livechat.firebaseio.com/Users/' + user.id );
+    angularFire(userRef, $rootScope, 'userInfo').then(function(){
+      if($rootScope.userInfo.length == 0 || $rootScope.userInfo.length == undefined){
+        // for sign up - we already have the info in root scope bc they entered it on the form
+        $rootScope.userInfo.email = $scope.user.email;
+        $rootScope.userInfo.first_name = $scope.user.first_name;
+        $rootScope.userInfo.last_name = $scope.user.last_name;
+        $rootScope.userInfo.password = $scope.user.password;
+      }
+      $location.path("/schedule");
+    });
+  }
+
   $scope.$on("angularFireAuth:login", function(evt, user) {
-    console.log(evt);
-    console.log(user);
+    // console.log(evt);
+    // console.log(user);
     notificationInformation = {
-      title: user.name + ' Logged In.',
+      title: user.email + ' Logged In.',
       text: evt.name
     }
     notification(notificationInformation);
@@ -78,5 +79,4 @@ bookies.controller('userController', ['$rootScope', '$scope', 'angularFire', 'an
     }, 0);
     return true;
   };
-
 }]);

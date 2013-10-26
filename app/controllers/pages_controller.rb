@@ -1,15 +1,15 @@
 class PagesController < ApplicationController
 
-  def scheduleBuilder
-  end
+  # def scheduleBuilder
+  # end
 
-  def schedule
-  end
+  # def schedule
+  # end
 
-  def logIn
-  end  
+  # def logIn
+  # end  
 
-  def userSettings
-  end
+  # def userSettings
+  # end
 
 end

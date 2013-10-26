@@ -5,8 +5,12 @@ LiveChat::Application.routes.draw do
   # You can have the root of your site routed with "root"
   # root 'welcome#index'
   root :to => 'pages#index'
-  get 'schedule' => 'pages#schedule'
+  
   get 'logIn' => 'pages#logIn'
+  get 'signUp' => 'pages#signUp'
   get 'userSettings' => 'pages#userSettings'
+
+  get 'schedule' => 'pages#schedule'
+  get 'schedulePrint' => 'pages#schedulePrint'
   get 'scheduleBuilder' => 'pages#scheduleBuilder'
 end

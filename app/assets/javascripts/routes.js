@@ -12,6 +12,11 @@ bookies.config(['$routeProvider', function($routeProvider){
       controller: "scheduleController"
       ,authRequired: true
     })
+    .when("/schedulePrint",{
+      templateUrl: '/schedulePrint',
+      controller: "scheduleController"
+      ,authRequired: true
+    })
     .when("/scheduleBuilder",{
       templateUrl: '/scheduleBuilder',
       controller: "scheduleBuilderController"

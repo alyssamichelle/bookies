@@ -5,6 +5,8 @@ bookies.controller('scheduleController', ['$rootScope','$scope', 'angularFire', 
   $scope.Object = Object;
   // $scope.popUpMessage = {message: 'testing testing testing testing testing testing'};
 
+ // mimic the fix you & rachel did for user settings, and do so here
+ // BUG : on monthModifier++/-- schedule.currentMonth is deleted
   var monthBuilder = function(start){
     $scope.today = Date.create().addMonths(monthModifier)
     var start = $scope.today.clone().beginningOfMonth()
@@ -42,11 +44,15 @@ bookies.controller('scheduleController', ['$rootScope','$scope', 'angularFire', 
   var firebaseCall = function(){
     // Getting the FireBase Schedule For the displaying month //
     var ref = new Firebase('https://anicoll-livechat.firebaseio.com/Schedule/' + $scope.month +'-' + $scope.year);
-    console.log('ref', ref);
+    // console.log('ref', ref);
 
+    if ($scope.unbindSchedule) {
+      $scope.unbindSchedule()
+    }
     $scope.schedule = {};
-    angularFire(ref, $scope, 'schedule').then(function(){
-      console.log('schedule', $scope.schedule);
+    angularFire(ref, $scope, 'schedule').then(function(something){
+      $scope.unbindSchedule = something;
+      console.log('schedule', $scope.schedule, something);
     }, function(){
       console.log('There was an error when trying to get the months information.');
     });
@@ -62,7 +68,7 @@ bookies.controller('scheduleController', ['$rootScope','$scope', 'angularFire', 
   };
 
   $scope.shiftStuffing = function(currentDay, shift_index, status) {
-    console.log('shift index', shift_index)
+    // console.log('shift index', shift_index)
     if(status == 'inactive'){
       console.log('You are already signed up for this shift');
       return;
@@ -118,19 +124,19 @@ bookies.controller('scheduleController', ['$rootScope','$scope', 'angularFire', 
     if(typeof shift.user_ids === 'undefined') shift.user_ids = {};
     if(typeof shift.available === 'undefined') shift.available = 0;
     var claimButtonNeeded = (shift.available - Object.keys(shift.user_ids).length) >= (index + 1);
-    console.log(shift.available,Object.keys(shift.user_ids).length, index, claimButtonNeeded )
+    // console.log(shift.available,Object.keys(shift.user_ids).length, index, claimButtonNeeded )
     return claimButtonNeeded;
   };
 
   $scope.popUp = function(day, shift){
-    console.log('day', day);
-    console.log('shift', shift);
+    // console.log('day', day);
+    // console.log('shift', shift);
 
     $scope.popUpMessage = {};
     $scope.popUpMessage.message = "Are You Sure You Want To Drop This Shift ?";
     $scope.popUpMessage.Agree = "Yes";
     $scope.popUpMessage.Disagree = "No";
-    console.log('hello', $scope.popUpMessage);
+    // console.log('hello', $scope.popUpMessage);
 
     return $scope.showPopUp = true;
   };
