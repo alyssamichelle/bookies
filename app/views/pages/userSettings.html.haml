@@ -1,10 +1,14 @@
 %div.userSettingsPage{"ng-show"=> "user", "ng-controller"=>"userController"}
-  %h1 Settings
-  %h2 {{user.email}}
-  %form
-    %div{"ng-repeat"=>"(title, information) in user"}
-      %label {{title}} :
-      %input{"ng-model"=>"information"}
+  .formWrapper
+    %form
+      %h1{"slab-text"=>true}
+        Settings
+      .fields-container
+        .field-container{"ng-repeat"=>"(title, information) in user"}
+          %label {{title}} :
+          %input{"ng-model"=>"information"}
+
+        %input{type: 'submit', value: 'Save Changes'}
 
   / %form
   /   %input{"ng-model" => "user.first_name"}

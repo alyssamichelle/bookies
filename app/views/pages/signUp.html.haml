@@ -1,14 +1,16 @@
 %div.formWrapper
   %form.signUpForm{"ng-controller"=>"userController"}
-    %h1.slab{"ng-show"=>"slabTextIfy()"} Welcome to bookies!
+    %h1{"slab-text"=>true} Welcome to bookies!
     .fields-container
       %input{"placeholder"=>"email@emailMcEmailerson", "name"=>"email", "type"=>"email", "ng-model"=>"user.email"}
-      %div.names
+      .field-container
         %input.first_name{"placeholder"=>"First Name", "name"=>"first_name", "type"=>"text", "ng-model"=>"user.first_name"}
+
+      .field-container
         %input.last_name{"placeholder"=>"Last Name", "name"=>"last_name", "type"=>"text", "ng-model"=>"user.last_name"}
 
       %div.password
-        %span.slab.pin{"ng-show" => "slabTextIfy()"} Pin:
+        %span.pin{"slab-text"=>true} Pin:
         %span.passwordInputs
           %input{"placeholder"=>"1", "name"=>"password", "type"=>"password", "ng-model"=>"user.pw_a"}
           %input{"placeholder"=>"2", "name"=>"password", "type"=>"password", "ng-model"=>"user.pw_b"} 

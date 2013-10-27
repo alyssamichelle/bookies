@@ -18,19 +18,19 @@
 div > .hide, .hide
   display: none !important
 
-/* @media screen and (min-width: 1024px) */
-  .custom-header h3
-    width: 50%
-    text-align: left
-    padding-right: 0
+// @media screen and (min-width: 1px)
+//   .custom-header h3
+//     width: 50%
+//     text-align: left
+//     padding-right: 0
 
-  .fc-calendar-container
-    height: 50%
-    margin-top: 30px
-    float: left
+//   .fc-calendar-container
+//     height: 50%
+//     margin-top: 30px
+//     float: left
 
-  .custom-calendar-full  
-    width: 48%
+//   .custom-calendar-full  
+//     width: 48%
 
 
 // schedule styles
@@ -54,21 +54,24 @@ div > .hide, .hide
     a:hover
       color: $darkBlueGrey
 
-.fc-calendar .fc-row > div > span
-  &.fc-date, &.fc-weekday
-    position: absolute
+.fc-calendar
+  background: white
 
-  &.fc-weekday
-    left: 40px
+  .fc-row > div
+    position: relative
 
-.fc-calendar .fc-row > div 
-  position: relative
+    > div.shifts
+      padding-left: 70px
+      max-width: 100%
+      display: block
+      overflow: hidden
 
-.fc-calendar .fc-row > div > div.shifts
-  padding-left: 70px
-  max-width: 100%
-  display: block
-  overflow: hidden
+    > span
+      &.fc-date, &.fc-weekday
+        position: absolute
+
+      &.fc-weekday
+        left: 40px
 
 .shift
   float: left

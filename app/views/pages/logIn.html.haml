@@ -1,17 +1,17 @@
 %div.formWrapper
   %form.signUpForm{"ng-controller"=>"userController"}
-    %h1.slab{"ng-show"=>"slabTextIfy()"} Log In Fun!
+    %h1{"slab-text"=>true} Log In Fun!
     .fields-container
       %input{"placeholder"=>"email@emailMcEmailerson", "name"=>"email", "type"=>"email", "ng-model"=>"user.email"}
       %div.password
-        %span.slab.pin{"ng-show" => "slabTextIfy()"} Pin:
+        %span.pin Pin:
         %span.passwordInputs
           %input{"placeholder"=>"1", "name"=>"password", "type"=>"password", "ng-model"=>"user.pw_a"}
           %input{"placeholder"=>"2", "name"=>"password", "type"=>"password", "ng-model"=>"user.pw_b"} 
           %input{"placeholder"=>"3", "name"=>"password", "type"=>"password", "ng-model"=>"user.pw_c"}
           %input{"placeholder"=>"4", "name"=>"password", "type"=>"password", "ng-model"=>"user.pw_d"}
 
-      %input.slab{"ng-show"=>"slabTextIfy()", "value"=>"LOG IN !!!","type"=>"submit","ng-click"=>"logIn()"} 
+      %input{"value"=>"LOG IN !!!","type"=>"submit","ng-click"=>"logIn()"} 
 
         %div.login
           New to Bookies?
