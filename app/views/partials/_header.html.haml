@@ -1,13 +1,15 @@
 %header
   %h1.logo
     %a{"href" => "#/"} bookies
-  %ul.nav.row-fluid{"ng-show"=>"user", "ng-controller" => "userController"}
-    %li.span3
-      %a.btn.btn-info.active{"href" => "#/schedule"} Schedule
-    %li.span3
-      %a.btn.btn-info{"href"=> "#/scheduleBuilder" } Create Schedule    
-    %li.span3
-      %a.btn.btn-info{"ng-click" => "logOut()"} Log Out
-    %li.span3{"ng-show"=>"user"}
-      %a.btn.btn-info{"href"=> "#/userSettings"} Settings
-
+  %ul{"ng-controller" => "userController"}
+    %li
+      %a{"ng-show"=>"user", "href" => "#/schedule", "ng-class"=> "{active : $route.current.activeTab == 'schedule'}"} Schedule
+    %li
+      %a{"ng-show"=>"user", "href"=> "#/scheduleBuilder", "ng-class"=> "{active : $route.current.activeTab == 'scheduleBuilder'}" } Create Schedule    
+    %li
+      %a{"ng-show"=>"user", "href"=> "#/userSettings", "ng-class"=> "{active : $route.current.activeTab == 'userSettings'}"} Settings
+    %li
+      %a{"ng-show"=>"user", "ng-click" => "logOut()", "ng-class"=> "{active : $route.current.activeTab == 'logOut'}"} Log Out
+      %a{"ng-show" => "!user", "href" => "#/logIn", "ng-class"=> "{active : $route.current.activeTab == 'logIn'}"} Log In
+    %li
+      %a{"ng-show"=>"!user", "href" => "#/signUp", "ng-class"=> "{active : $route.current.activeTab == 'signUp'}"} Sign Up
