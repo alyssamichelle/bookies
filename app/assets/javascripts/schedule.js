@@ -1,12 +1,11 @@
-bookies.controller('scheduleController', ['$rootScope','$scope', 'angularFire', function ($rootScope, $scope, angularFire){
+bookies.controller('scheduleController', ['$rootScope','$scope', 'angularFire', '$route', function ($rootScope, $scope, angularFire, $route){
+  $scope.$route = $route;
+  
   var monthModifier = 0;
   var id = first_name = last_name = '';
   $scope.Date = Date;
   $scope.Object = Object;
-  // $scope.popUpMessage = {message: 'testing testing testing testing testing testing'};
 
- // mimic the fix you & rachel did for user settings, and do so here
- // BUG : on monthModifier++/-- schedule.currentMonth is deleted
   var monthBuilder = function(start){
     $scope.today = Date.create().addMonths(monthModifier)
     var start = $scope.today.clone().beginningOfMonth()
@@ -70,6 +69,7 @@ bookies.controller('scheduleController', ['$rootScope','$scope', 'angularFire', 
   $scope.shiftStuffing = function(currentDay, shift_index, status) {
     // console.log('shift index', shift_index)
     if(status == 'inactive'){
+      popUp();
       console.log('You are already signed up for this shift');
       return;
     }else{
@@ -146,10 +146,10 @@ bookies.controller('scheduleController', ['$rootScope','$scope', 'angularFire', 
   };
 
   $scope.dropShift = function(day, shift){
-    
+    console.log(arguments);
     getUserInfo();
 
-    delete  $scope.schedule.days[day].shifts[shift].user_ids[id];
+    // delete  $scope.schedule.days[day].shifts[shift].user_ids[id];
   };
 
 }]);
