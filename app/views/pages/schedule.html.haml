@@ -34,9 +34,6 @@
                     %span{"ng-repeat" => "user in shift.user_ids", "ng-click" => "popUp(currentDay,$index)"} {{user.name}}
                     / %div.shift-claim-button{"ng-repeat" => "i in getNumber(shift.available)"}
                     .shift-claim-button{"class" => "{{shift.name}} {{shift.user_ids[user.id].status}}", "ng-repeat" => "i in getNumber(shift.available)", "ng-click" => "shiftStuffing(currentDay, shift.id, shift.user_ids[user.id].status)", "ng-show" => "createClaimButtons(shift, $index)"}
-                    // TO-DO change from ng-hide, to style diff inside create claim button, with a please sign in
-
-
 
   .pop-up{"ng-show" => "popUpMessage"}
     .inner-pop-up
