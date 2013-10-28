@@ -3,8 +3,16 @@ bookies.masterUrl = 'https://anicoll-livechat.firebaseio.com';
 
 bookies.run(['angularFireAuth',"Firebase","$rootScope", function(angularFireAuth,Firebase,$rootScope){
     var ref = new Firebase(bookies.masterUrl);
-    angularFireAuth.initialize(ref,{'name' : 'user', 'path' : '/logIn', 'scope': $rootScope});
     // here is where you put the default path
+    angularFireAuth.initialize(ref,{'name' : 'user', 'path' : '/logIn', 'scope': $rootScope});
+
+    $(function() {
+      $(window).on('click', '.ui-pnotify', function() {
+        $(this).fadeOut(300, function() {
+          $(this).remove()
+        });
+      });
+    });
 }]);
 
 bookies.filter('range',function(){
