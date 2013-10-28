@@ -1,4 +1,9 @@
-bookies.controller('scheduleBuilderController', ['$rootScope','$scope', 'angularFire', function ($rootScope,$scope, angularFire){
+bookies.controller('scheduleBuilderController', ['$rootScope','$scope', 'angularFire', '$route', function ($rootScope, $scope, angularFire, $route){
+  $scope.$route = $route;
+
+  $( '.cd-select' ).dropdown( {
+    gutter : 5
+  } );
 
   var beginningOfMonth = Date.create().beginningOfMonth();
   if (!beginningOfMonth.isSunday()) {
