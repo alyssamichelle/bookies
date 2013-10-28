@@ -1,4 +1,6 @@
-bookies.controller('userController', ['$rootScope', '$scope', 'angularFire', 'angularFireAuth', '$location', function ($rootScope, $scope, angularFire, angularFireAuth, $location){
+bookies.controller('userController', ['$rootScope', '$scope', 'angularFire', 'angularFireAuth', '$location', '$route', function ($rootScope, $scope, angularFire, angularFireAuth, $location, $route){
+  $scope.$route = $route;
+  
   $scope.logIn = function(){
     $scope.user.password = $scope.user.pw_a + $scope.user.pw_b + $scope.user.pw_c + $scope.user.pw_d;
 
