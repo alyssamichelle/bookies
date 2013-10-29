@@ -1,10 +1,6 @@
 bookies.controller('scheduleBuilderController', ['$rootScope','$scope', 'angularFire', '$route', function ($rootScope, $scope, angularFire, $route){
   $scope.$route = $route;
 
-  $( '.cd-select' ).dropdown( {
-    gutter : 5
-  } );
-
   var beginningOfMonth = Date.create().beginningOfMonth();
   if (!beginningOfMonth.isSunday()) {
     beginningOfMonth = beginningOfMonth.advance({days: 7 - beginningOfMonth.getDay()});
@@ -20,10 +16,13 @@ bookies.controller('scheduleBuilderController', ['$rootScope','$scope', 'angular
   $scope.form_month.shiftNames = ["Morning", "Afternoon", "Evening", ""];
 
   $scope.createSchedule = function(){
-    // TODO : instead of basing the name off of start of month month, base it off of start of month nearest month start
-    var currentMonth = Date.create($scope.form_month.startOfMonth).format('{MM}-{yyyy}');
     // 10-2013
-    var ref = new Firebase('https://anicoll-livechat.firebaseio.com/Schedule/'+ currentMonth)
+    var keyRef = new Firebase('https://anicoll-livechat.firebaseio.com/ScheduleKeys/');
+    $scope.scheduleKeys = [];
+    angularFire(keyRef, $scope, 'scheduleKeys');
+    $scope.scheduleKeys.push($scope.form_month.startOfMonth);
+
+    var ref = new Firebase('https://anicoll-livechat.firebaseio.com/Schedule/'+ $scope.form_month.startOfMonth)
     angularFire(ref, $scope, 'month');
 
     $scope.month = $scope.form_month;
@@ -34,7 +33,7 @@ bookies.controller('scheduleBuilderController', ['$rootScope','$scope', 'angular
     var range = Date.range($scope.month.startOfMonth, $scope.month.endOfMonth);
 
     // console.log('number of weeks : ' , (range.end - range.start)% 7);
-    $scope.month.days = [];
+    $scope.month.days = {};
 
     for(i = 0; i < $scope.month.numberOfShiftBlocks; i++ ){};
     // Looping for every day in the Month
@@ -55,7 +54,8 @@ bookies.controller('scheduleBuilderController', ['$rootScope','$scope', 'angular
         day.shifts.push(shift);
       };
       // Give Month.weeks Array day values
-      $scope.month.days[n.format('{d}')] = day;
+      console.log('format',n.format('{MM}-{d}'));
+      $scope.month.days[n.format('{MM}-{d}')] = day;
     });
     
   };

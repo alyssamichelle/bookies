@@ -1,0 +1,33 @@
+.form-wrapper{"ng-controller" => "scheduleController"}
+  %form.schedule-builder
+    %h1
+      %span.smaller-slab-text.slabtext New
+      %span.slabtext Schedule
+    .container
+      .calendarWrapper
+        .custom-calendar-wrap.custom-calendar-full
+          .custom-header
+            %h2 New Schedule
+            %h3.custom-month-year
+              %span#custom-month.custom-month {{monthFull}}
+              %span#custom-year.custom-year {{year}}
+              %nav
+                %span#custom-prev.custom-prev{"ng-click" => "previous()"}
+                %span#custom-next.custom-next{"ng-click" => "next()"}
+                %span#custom-current.custom-current{"title" => "Print", "ng-click"=>"print()"}
+                
+          #calendar.fc-calendar-container
+            .calendar.fc-calendar.fc-five-rows
+              .fc-head
+                %div Sun
+                %div Mon
+                %div Tue
+                %div Wed
+                %div Th
+                %div Fr
+                %div Sat
+            
+              .fc-body
+                .fc-row{"ng-repeat" => "week in weeks"}
+                  %div{"ng-repeat" => "currentDay in week", "ng-model"=>"currentDay"} 
+                    %span.fc-date{"ng-class" => "{hide:!isCurrentMonth(currentDay)}"} {{ Date.create(currentDay).format('{d}') }}

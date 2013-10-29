@@ -256,8 +256,8 @@
 	background: rgba(255,255,255,0.3);
 }
 
-/*@media screen and (max-width: 1023px) , screen and (max-height: 450px) {*/
-@media screen and (min-width: 1px) {
+@media screen and (max-width: 1023px) , screen and (max-height: 450px) {
+/*@media screen and (min-width: 1px) {*/
 	html, body, .container {
 		height: auto;
 	}

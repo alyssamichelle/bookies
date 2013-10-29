@@ -5,19 +5,18 @@ bookies.controller('scheduleController', ['$rootScope','$scope', 'angularFire', 
   var id = first_name = last_name = '';
   $scope.Date = Date;
   $scope.Object = Object;
-
-  var monthBuilder = function(start){
-    $scope.today = Date.create().addMonths(monthModifier)
-    var start = $scope.today.clone().beginningOfMonth()
-      , end   = $scope.today.clone().endOfMonth();
-
-    $scope.month = $scope.today.format('{MM}');
-    $scope.monthFull = $scope.today.format('{Month}');
-    $scope.year = $scope.today.format('{yyyy}');
+ 
+  var monthBuilder = function(startOfMonth, endOfMonth){
+    
+    console.log('start of month :',startOfMonth);
+    var start = Date.create(startOfMonth) || $scope.today.clone().beginningOfMonth()
+      , end   = Date.create(endOfMonth) || $scope.today.clone().endOfMonth();
+      console.log(start, end);
+   
 
     // If the first day is not Sunday //
     var dayOfWeek = start.getDay()
-    if (dayOfWeek !== 0) start.addDays(-dayOfWeek);
+    // if (dayOfWeek !== 0) start.addDays(-dayOfWeek);
 
     // Get the weeks and loop through them //
     var weeksDateRange = Date.range(start, end).eachWeek();
@@ -34,31 +33,46 @@ bookies.controller('scheduleController', ['$rootScope','$scope', 'angularFire', 
       for (var ii in days) {
         var day = Date.create(days[ii]);
         $scope.weeks[i].push(Date.parse(day));
-        // console.log(day.format('short'));
+        console.log('day :',day.format('short'));
       }
     }
-    firebaseCall();
   };
 
   var firebaseCall = function(){
     // Getting the FireBase Schedule For the displaying month //
+    console.log('month', $scope.month);
     var ref = new Firebase('https://anicoll-livechat.firebaseio.com/Schedule/' + $scope.month +'-' + $scope.year);
     // console.log('ref', ref);
-
     if ($scope.unbindSchedule) {
       $scope.unbindSchedule()
     }
     $scope.schedule = {};
     angularFire(ref, $scope, 'schedule').then(function(something){
       $scope.unbindSchedule = something;
+      console.log('start scope :',$scope.schedule)
+      monthBuilder($scope.schedule.startOfMonth, $scope.schedule.endOfMonth);
+
       console.log('schedule', $scope.schedule, something);
     }, function(){
       console.log('There was an error when trying to get the months information.');
     });
-  };
+  }; 
 
-  monthBuilder();
+  var setMonth = function()
+  {
+    for (var i = $rootScope.scheduleKeys.length - 1; i >= 0; i--) {
+    if (Date.range(today, today.addMonths(1)).contains($rootScope.scheduleKeys[i])){
+      return $rootScope.scheduleKeys[i]
+    };
 
+    };
+    Date.range(new Date(2003, 0), new Date(2005, 0)).contains(new Date(2004, 0))
+    $scope.today = Date.create().addMonths(monthModifier);
+    $scope.month = $scope.today.format('{MM}');
+    $scope.monthFull = $scope.today.format('{Month}');
+    $scope.year = $scope.today.format('{yyyy}');
+    firebaseCall();
+  };setMonth();
 
   var getUserInfo = function(){
     id = $scope.user.id;
@@ -93,12 +107,12 @@ bookies.controller('scheduleController', ['$rootScope','$scope', 'angularFire', 
   // La Methods Of Awesome //
   $scope.previous = function(){
     monthModifier--;
-    monthBuilder();
+    setMonth();
   };
 
   $scope.next = function(){
     monthModifier++;
-    monthBuilder();
+    setMonth();
   };
 
   $scope.current = function(){

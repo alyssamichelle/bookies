@@ -1,8 +1,8 @@
-.formWrapper
+.form-wrapper
   position: relative
   width: 80%
   margin: 0 auto
-  font-size: 1.3em
+  font-size: 1em
 
   &:after
     content: ""
@@ -11,27 +11,31 @@
 
 form
   width: 100%
-  border: 1px solid #ddd
+  // border: 1px solid #ddd
   border-radius: 20px
   overflow: hidden
 
   > h1
-    padding: 20px
-    background: rgba(255,255,255,1)
+    padding: 1em 0em 0.5em
     box-shadow: inset 0 1px 0 rgba(255,255,255,0.2)
-    font-size: 0.8em
+    font-family: 'taiga'
+    font-size: 2em
     font-weight: 300
-    text-align: center
-    text-shadow: white 0 1px 1px
-    text-transform: uppercase
+    text-shadow: #A39E84 2px -2px 0
+    line-height: 0.5em
 
     strong
       font-weight: bold
+      font-family: 'Lato', Calibri, Arial, sans-serif
+      display: block
+      text-shadow: #A39E84 5px -5px 0
+      text-align: center
+      text-transform: uppercase
 
   .fields-container
     clear: left
     padding: 20px
-    background: rgba(255,255,255,0.5)
+    background: rgba(163, 158, 132, 0.5)
 
     &:after
       clear: both
@@ -57,11 +61,15 @@ form
     input
       width: 100%
       margin: 0 0 30px
-      padding: 0.5em 1em
-      background: rgba(255,255,255,0.95)
-      border: 1px solid #ddd
+      padding: 1.5em 2em
+      background: rgba(255,255,255,1)
+      border: none
       border-radius: 3px
       font-size: 1em
+      box-shadow: 0 1px 1px rgba(0, 0, 0, 0.1)
+      color: #999
+      font-family: 'Lato', Calibri, Arial, sans-serif
+      font-weight: 700
 
       &:focus
         background: white

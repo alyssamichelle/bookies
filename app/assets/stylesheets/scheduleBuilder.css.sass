@@ -1,10 +1,13 @@
-span.smaller-slab-text.slabtext
+.cd-dropdown
+  width: 100%
 
-// form.schedule-builder
-//   .field-container > select
-//     width: 30%
-//     margin-right: 3%
+  &.cd-active 
+    > ul
+      z-index: 2000
 
-//     &:last-of-type
-//       margin-right: 0
+    > span
+      z-index: 2001 !important
 
+// RESPONSIVE SELECTS TO-DO
+// select styles for the custom drop downs are not responsive, 
+// so a jquery script will be needed to check resize if you want responsive selects

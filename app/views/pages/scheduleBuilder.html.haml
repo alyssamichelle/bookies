@@ -1,36 +1,75 @@
-%form{"ng-submit"=>"createSchedule()"}
-  %legend ADMIN SETTINGS
-  .row-fluid
-    %div{"class"=>"formItem span4"}
-      %label{"for"=>"startOfMonth"} Start of Month
-      %input{"type" => "date", "ng-model"=>"form_month.startOfMonth", "id"=>"startOfMonth"}
+.form-wrapper{"ng-controller" => "scheduleBuilderController"}
+  %form.schedule-builder{"ng-submit"=>"createSchedule()"}
+    %h1
+      New
+      %strong{"slab-text" => true} Schedule
 
-    %div{"class"=>"formItem span4"}
-      %label{"for"=>"endOfMonth"} End of Month
-      %input{"type" => "date", "ng-model"=>"form_month.endOfMonth", "id"=>"endOfMonth"}
+    .fields-container
+      .field-container{"class"=>"formItem span4"}
+        %label{"for"=>"startOfMonth"} Start of Month
+        %input{"type" => "date", "ng-model"=>"form_month.startOfMonth", "id"=>"startOfMonth"}
 
-    %div{"class"=>"formItem span2"}
-      %label{"for"=>"numberOfShiftBlocks"} # Shift Blocks
-      %input{"type" => "tel", "ng-model"=>"form_month.numberOfShiftBlocks", "id"=>"numberOfShiftBlocks"}
+      .field-container{"class"=>"formItem span4"}
+        %label{"for"=>"endOfMonth"} End of Month
+        %input{"type" => "date", "ng-model"=>"form_month.endOfMonth", "id"=>"endOfMonth"}
 
-    %div{"class"=>"formItem span2"}
-      %label{"for"=>"numberOfPeoplePerShift"} # People
-      %input{"type" => "tel", "ng-model"=>"form_month.numberOfPeoplePerShift", "id"=>"numberOfPeoplePerShift"}
+      .field-container{"class"=>"formItem span2"}
+        %label{"for"=>"numberOfShiftBlocks"} # Shift Blocks
+        %input{"type" => "tel", "ng-model"=>"form_month.numberOfShiftBlocks", "id"=>"numberOfShiftBlocks"}
 
-  .row-fluid
-    %div{"class"=>"formItem span4"}
-      %label{"for"=>"shiftLeadOpenDate"} Available for Shift Leads On :
-      %input{"type" => "date", "ng-model"=>"form_month.shiftLeadOpenDate", "id"=>"shiftLeadOpenDate"}
+      .field-container{"class"=>"formItem span2"}
+        %label{"for"=>"numberOfPeoplePerShift"} # People
+        %input{"type" => "tel", "ng-model"=>"form_month.numberOfPeoplePerShift", "id"=>"numberOfPeoplePerShift"}
 
-    %div{"class"=>"formItem span4"}
-      %label{"for"=>"openForAllDate"} Available for All Others On :
-      %input{"type" => "date", "ng-model"=>"form_month.openForAllDate", "id"=>"openForAllDate"}
+      .field-container{"class"=>"formItem span4"}
+        %label{"for"=>"shiftLeadOpenDate"} Available for Shift Leads On :
+        %input{"type" => "date", "ng-model"=>"form_month.shiftLeadOpenDate", "id"=>"shiftLeadOpenDate"}
 
-    .row-fluid
-      %div{"ng-repeat" => "n in [] | range:form_month.numberOfShiftBlocks"}
-        %div{"class"=>"marginPlease formItem span4"}
-          %label{"for"=>"shiftNames"} Shift Name :
-          %input{"type" => "text", "ng-model"=>"form_month.shiftNames[$index]", "id"=>"shiftNames"}
+      .field-container{"class"=>"formItem span4"}
+        %label{"for"=>"openForAllDate"} Available for All Others On :
+        %input{"type" => "date", "ng-model"=>"form_month.openForAllDate", "id"=>"openForAllDate"}
 
-    %input.submitThatMonthspan12.btn.btn-primary{"type"=>"submit"}
+      .field-container{"ng-repeat" => "n in [] | range:form_month.numberOfShiftBlocks"}
+        / %label{"for"=>"shiftNames"} Shift Name :
+        / %input{"type" => "text", "ng-model"=>"form_month.shiftNames[$index]", "id"=>"shiftNames-[i]"}
+        / %label{"for" => "shift-times-{{$index}}"}
+        / %input{"type" => "time", "id" => "shift-times-{{$index}}","ng-model"=>"form_month.shiftNames[$index].shiftTime"}
+        %label {{form_month.shiftNames[$index]}}
+        %select{"id" => "shift-times-{{$index}}", "class" => "cd-select", "drop-down" => true, "ng-model" => "form_month.shiftNames[$index].shiftTime"}
+          %option{value: '-1', selected: true} Select the Hour
+          %option{value: '1'} 01
+          %option{value: '2'} 02
+          %option{value: '3'} 03
+          %option{value: '4'} 04
+          %option{value: '5'} 05
+          %option{value: '6'} 06
+          %option{value: '7'} 07
+          %option{value: '8'} 08
+          %option{value: '9'} 09
+          %option{value: '10'} 10
+          %option{value: '11'} 11
+          %option{value: '12'} 12
+
+        %select{"class" => "cd-select", "drop-down" => true, "ng-model" => "form_month.shiftNames[$index].shiftTime"}
+          %option{value: '-1', selected: true} Select the Minute
+          %option{value: '0'} 00
+          %option{value: '5'} 05
+          %option{value: '10'} 10
+          %option{value: '15'} 15
+          %option{value: '20'} 20
+          %option{value: '25'} 25
+          %option{value: '30'} 30
+          %option{value: '35'} 35
+          %option{value: '40'} 40
+          %option{value: '45'} 45
+          %option{value: '50'} 50
+          %option{value: '55'} 55
+
+        %select{"class" => "cd-select", "drop-down" => true, "ng-model" => "form_month.shiftNames[$index].shiftTime"}
+          %option{value: '0'} AM
+          %option{value: '1'} PM
+
+
+
+      %input{"type"=>"submit"}
 

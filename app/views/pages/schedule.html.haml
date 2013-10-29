@@ -26,10 +26,10 @@
           .fc-body
             .fc-row{"ng-repeat" => "week in weeks"}
               %div{"ng-repeat" => "currentDay in week", "ng-model"=>"currentDay"} 
-                %span.fc-date{"ng-class" => "{hide:!isCurrentMonth(currentDay)}"} {{ Date.create(currentDay).format('{d}') }}
-                %span.fc-weekday{"ng-class" => "{hide:!isCurrentMonth(currentDay)}"} {{ Date.create(currentDay).format('{dow}') }}
-                .shifts{"class"=>"columns-{{schedule.days[Date.create(currentDay).getDate()].shifts.length}}"}
-                  %div.shift{"ng-repeat" => "shift in schedule.days[Date.create(currentDay).getDate()].shifts", "class"=>"columns-{{shift.available}}"}
+                %span.fc-date {{ Date.create(currentDay).format('{d}') }}
+                %span.fc-weekday {{ Date.create(currentDay).format('{dow}') }}
+                .shifts{"class"=>"columns-{{schedule.days[Date.create(currentDay).format('{MM}-{d}')].shifts.length}}"}
+                  %div.shift{"ng-repeat" => "shift in schedule.days[Date.create(currentDay).format('{MM}-{d}')].shifts", "class"=>"columns-{{shift.available}}"}
                     %h3 {{shift.name}}
                     %span{"ng-repeat" => "user in shift.user_ids", "ng-click" => "popUp(currentDay,$index)"} {{user.name}}
                     / %div.shift-claim-button{"ng-repeat" => "i in getNumber(shift.available)"}
