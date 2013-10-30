@@ -17,3 +17,11 @@ angular.module('bookies').directive('dropDown',function(){
     }
   }
 });
+
+// angular.module('bookies').directive('notification',function(){
+//   return {
+//     restrict: 'E',
+//     templateUrl: 'notification.html.haml'
+//   }
+// });
+

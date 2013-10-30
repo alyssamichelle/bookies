@@ -3,6 +3,7 @@
 //= require jquery
 //= require turbolinks
 //= require bookies
+//= require notification
 //= require routes
 
 //= require jquery.dropdown

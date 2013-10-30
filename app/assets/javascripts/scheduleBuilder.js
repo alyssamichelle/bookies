@@ -16,23 +16,19 @@ bookies.controller('scheduleBuilderController', ['$rootScope','$scope', 'angular
   $scope.form_month.shiftNames = ["Morning", "Afternoon", "Evening", ""];
 
   $scope.createSchedule = function(){
-    // 10-2013
     var keyRef = new Firebase('https://anicoll-livechat.firebaseio.com/ScheduleKeys/');
     $scope.scheduleKeys = [];
-    angularFire(keyRef, $scope, 'scheduleKeys');
-    $scope.scheduleKeys.push($scope.form_month.startOfMonth);
+    angularFire(keyRef, $scope, 'scheduleKeys').then(function()
+    {
+      $scope.scheduleKeys.push($scope.form_month.startOfMonth);
+    });
+  
 
     var ref = new Firebase('https://anicoll-livechat.firebaseio.com/Schedule/'+ $scope.form_month.startOfMonth)
     angularFire(ref, $scope, 'month');
 
     $scope.month = $scope.form_month;
-
-    console.log('$scope.month.startOfMonth' , $scope.month.startOfMonth);
-    console.log('$scope.month.endOfMonth' , $scope.month.endOfMonth);
-
     var range = Date.range($scope.month.startOfMonth, $scope.month.endOfMonth);
-
-    // console.log('number of weeks : ' , (range.end - range.start)% 7);
     $scope.month.days = {};
 
     for(i = 0; i < $scope.month.numberOfShiftBlocks; i++ ){};
@@ -54,8 +50,7 @@ bookies.controller('scheduleBuilderController', ['$rootScope','$scope', 'angular
         day.shifts.push(shift);
       };
       // Give Month.weeks Array day values
-      console.log('format',n.format('{MM}-{d}'));
-      $scope.month.days[n.format('{MM}-{d}')] = day;
+      $scope.month.days[n.format('{MM}-{dd}')] = day;
     });
     
   };
