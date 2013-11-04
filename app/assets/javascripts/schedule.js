@@ -18,20 +18,18 @@ bookies.controller('scheduleController', ['$rootScope','$scope', 'angularFire', 
       console.log('There was an error when trying to get the months information.');
     });
   }; 
+
   var currentSelector;
-  var setMonth = function()
-  {
+  var setMonth = function() {
     var keyRef = new Firebase('https://anicoll-livechat.firebaseio.com/ScheduleKeys/');
-    angularFire(keyRef, $scope, 'scheduleKeys').then(function()
-    {
+    angularFire(keyRef, $scope, 'scheduleKeys').then(function() {
       monthModifier = monthModifier || $scope.scheduleKeys.length - 1;
       currentSelector = $scope.scheduleKeys[monthModifier];
       firebaseCall();
     });
+  };
 
-    
-  };setMonth();
-
+  setMonth();
 
   var getUserInfo = function(){
     id = $rootScope.firebaseUser.id;
@@ -106,18 +104,37 @@ bookies.controller('scheduleController', ['$rootScope','$scope', 'angularFire', 
     return claimButtonNeeded;
   };
 
-  $scope.dropShiftOption = function(day, shift){
-    var notifyInfo = {
-      text: $('#form_notice').html()
-    }
-    notify(notifyInfo);
+  $scope.dropShiftOption = function(day, shift, userId){
+    var notice = $.pnotify({
+      title: 'Are you sure you want to drop the ' + day.shifts[shift].name + ' shift for ' + day.date + '?',
+      text: '<a class="confirm-button" href="">Sure thing</a>',
+      styling: 'jqueryui',
+      icon: false,
+      width: 'auto',
+      hide: false,
+      sticker: false,
+      insert_brs: false
+    });
+
+    notice.find('.confirm-button').on('click', function() {
+      $.pnotify_remove_all();
+      $scope.dropShift(day, shift, userId);
+      return false;
+    });
   };
 
-  $scope.dropShift = function(day, shift){
-    console.log(arguments);
-    getUserInfo();
+  $scope.dropShift = function(day, shift, userId){
+    console.log('dropShift');
+    // TODO: Call for normal users.
+    // Check to see if current user exists in the day's shift's user_ids array.
+    // getUserInfo();
 
-    // delete  $scope.schedule.days[day].shifts[shift].user_ids[id];
+    // Admin functionality
+    // TODO: Figure out why changes to $scope.schedule aren't syncing to the world
+    day = Date.create(day.date).format('{MM}-{dd}');
+    console.log(0, $scope.schedule.days[day].shifts[shift].user_ids[userId]);
+    delete $scope.schedule.days[day].shifts[shift].user_ids[userId];
+    console.log(1, $scope.schedule.days[day].shifts[shift]);
   };
 
 }]);
