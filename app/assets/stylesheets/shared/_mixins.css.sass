@@ -34,3 +34,23 @@
   background-image: -moz-linear-gradient($top, $bottom)
   background-image: -o-linear-gradient($top, $bottom)
   background-image: linear-gradient($top, $bottom)
+
+=button()
+  float: right
+  width: auto
+  margin: 0
+  padding: 0.5em 1em
+  -webkit-appearance: none
+  background: linear-gradient(#241f22, #2f2420)
+  border: none
+  border-radius: 3px
+  box-shadow: none
+  color: white
+  cursor: pointer
+
+  &:hover
+    color: #FFF5AA
+    text-shadow: #FFF5AA 0 0 1px
+
+  &:active
+    background: black
