@@ -1,4 +1,4 @@
-angular.module('bookies').directive('slabText', function(){
+angular.module('bookies').directive('slabText', function() {
   return {
     priority: 99,
     link: function(scope, element, attrs){
@@ -24,4 +24,3 @@ angular.module('bookies').directive('dropDown',function(){
 //     templateUrl: 'notification.html.haml'
 //   }
 // });
-
