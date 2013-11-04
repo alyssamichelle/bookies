@@ -4,7 +4,7 @@
       %span.smaller-slab-text.slabtext New
       %span.slabtext Schedule
     .container
-      .calendarWrapper
+      .scheduleWrapper
         .custom-calendar-wrap.custom-calendar-full
           .custom-header
             %h2 New Schedule
@@ -30,4 +30,4 @@
               .fc-body
                 .fc-row{"ng-repeat" => "week in weeks"}
                   %div{"ng-repeat" => "currentDay in week", "ng-model"=>"currentDay"} 
-                    %span.fc-date{"ng-class" => "{hide:!isCurrentMonth(currentDay)}"} {{ Date.create(currentDay).format('{d}') }}
+                    %span.fc-date {{ Date.create(currentDay).format('{d}') }}
