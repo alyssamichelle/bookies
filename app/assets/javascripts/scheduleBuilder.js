@@ -1,4 +1,4 @@
-bookies.controller('scheduleBuilderController', ['$rootScope','$scope', 'angularFire', '$route', function ($rootScope, $scope, angularFire, $route){
+bookies.controller('scheduleBuilderController', ['$rootScope','$scope', 'angularFire', '$route', '$location', function ($rootScope, $scope, angularFire, $route, $location){
   $scope.$route = $route;
 
   var beginningOfMonth = Date.create().beginningOfMonth();
@@ -16,11 +16,14 @@ bookies.controller('scheduleBuilderController', ['$rootScope','$scope', 'angular
   $scope.form_month.shiftNames = ["Morning", "Afternoon", "Evening", ""];
 
   $scope.createSchedule = function(){
+    $('.create-schedule-button').attr('disabled', true);
     var keyRef = new Firebase('https://anicoll-livechat.firebaseio.com/ScheduleKeys/');
     $scope.scheduleKeys = [];
-    angularFire(keyRef, $scope, 'scheduleKeys').then(function()
-    {
+    angularFire(keyRef, $scope, 'scheduleKeys').then(function(){
       $scope.scheduleKeys.push($scope.form_month.startOfMonth);
+      // $location.path("/schedule");
+    }).fail(function(){
+      $('.create-schedule-button').removeAttr('disabled');
     });
   
 
@@ -52,6 +55,12 @@ bookies.controller('scheduleBuilderController', ['$rootScope','$scope', 'angular
       // Give Month.weeks Array day values
       $scope.month.days[n.format('{MM}-{dd}')] = day;
     });
+
+    
+  $scope.submitThatSchedule = function(){
+    $location.path('/schedule');
+    $scope.createSchedule();
+  };
     
   };
 }]);
