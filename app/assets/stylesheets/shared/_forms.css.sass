@@ -12,11 +12,11 @@
 form
   width: 100%
   // border: 1px solid #ddd
-  border-radius: 20px
+  border-radius: 0 0 20px 20px
   overflow: hidden
 
   > h1
-    padding: 1em 0em 0.5em
+    padding: 2em 0em 0.5em
     box-shadow: inset 0 1px 0 rgba(255,255,255,0.2)
     font-family: 'taiga'
     font-size: 2em
@@ -66,7 +66,7 @@ form
       border: none
       border-radius: 3px
       font-size: 1em
-      box-shadow: 0 1px 1px rgba(0, 0, 0, 0.1)
+      box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.3)
       color: #999
       font-family: 'Lato', Calibri, Arial, sans-serif
       font-weight: 700
@@ -76,20 +76,12 @@ form
         outline: none
 
       &[type=submit]
-        float: right
-        width: auto
-        margin: 0
-        padding: 0.5em 1em
-        -webkit-appearance: none
-        background: linear-gradient(#241f22, #2f2420)
-        border: none
-        box-shadow: none
-        color: #FFF
-        cursor: pointer
+        +button()
 
-        &:hover
-          color: #FFF5AA
-          text-shadow: #FFF5AA 0 0 3px
+        &:disabled
+          background: linear-gradient(transparentize(#241f22, 0.75), transparentize(#2f2420, 0.75))
+          color: white
+          text-shadow: none
 
     .names
       position: relative
