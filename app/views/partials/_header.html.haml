@@ -2,14 +2,14 @@
   %h1.logo
     %a{"href" => "#/"} bookies
   %ul{"ng-controller" => "userController"}
-    %li
-      %a{"ng-show"=>"firebaseUser", "href" => "#/schedule", "ng-class"=> "{active : $route.current.activeTab == 'schedule'}"} Schedule
-    %li
-      %a{"ng-show"=>"firebaseUser", "href"=> "#/scheduleBuilder", "ng-class"=> "{active : $route.current.activeTab == 'scheduleBuilder'}" } Create Schedule    
-    %li
-      %a{"ng-show"=>"firebaseUser", "href"=> "#/userSettings", "ng-class"=> "{active : $route.current.activeTab == 'userSettings'}"} Settings
+    %li{"ng-show" => "firebaseUser"}
+      %a{"href" => "#/schedule", "ng-class"=> "{active : $route.current.activeTab == 'schedule'}"} Schedule
+    %li{"ng-show" => "firebaseUser"}
+      %a{"href"=> "#/scheduleBuilder", "ng-class"=> "{active : $route.current.activeTab == 'scheduleBuilder'}" } Create Schedule    
+    %li{"ng-show" => "firebaseUser"}
+      %a{"href"=> "#/userSettings", "ng-class"=> "{active : $route.current.activeTab == 'userSettings'}"} Settings
     %li
       %a{"ng-show"=>"firebaseUser", "ng-click" => "logOut()", "ng-class"=> "{active : $route.current.activeTab == 'logOut'}"} Log Out
-      %a{"ng-show" => "!firebaseUser", "href" => "#/logIn", "ng-class"=> "{active : $route.current.activeTab == 'logIn'}"} Log In
-    %li
-      %a{"ng-show"=>"!firebaseUser", "href" => "#/signUp", "ng-class"=> "{active : $route.current.activeTab == 'signUp'}"} Sign Up
+      %a{"ng-hide" => "firebaseUser", "href" => "#/logIn", "ng-class"=> "{active : $route.current.activeTab == 'logIn'}"} Log In
+    %li{"ng-hide" => "firebaseUser"}
+      %a{"href" => "#/signUp", "ng-class"=> "{active : $route.current.activeTab == 'signUp'}"} Sign Up
