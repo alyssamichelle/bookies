@@ -1,5 +1,6 @@
 .form-wrapper{"ng-controller" => "scheduleBuilderController"}
   %form.schedule-builder{"ng-submit"=>"createSchedule()"}
+    #form_notice This is what the notification will say
     %h1
       New
       %strong{"slab-text" => true} Schedule
@@ -69,7 +70,4 @@
           %option{value: '0'} AM
           %option{value: '1'} PM
 
-
-
-      %input{"type"=>"submit"}
-
+      %input.create-schedule-button{"type"=>"submit"}

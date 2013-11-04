@@ -1,18 +1,20 @@
 %div.form-wrapper
-  %form.signUpForm{"ng-controller"=>"userController"}
-    %h1{"slab-text"=>true} Log In Fun!
+  %form.signUpForm{"ng-controller"=>"userController", "ng-submit"=>"logIn()"}
+    %h1
+      Fun!
+      %strong{"slab-text" => true} Log In
+
     .fields-container
-      %input{"placeholder"=>"email@emailMcEmailerson", "name"=>"email", "type"=>"email", "ng-model"=>"user.email"}
+      %input{"placeholder"=>"email@emailMcEmailerson", "name"=>"email", "type"=>"email", "ng-model"=>"bookiesUser.email", "required" => true}
       %div.password
         %span.pin Pin:
         %span.passwordInputs
-          %input{"placeholder"=>"1", "name"=>"password", "type"=>"password", "ng-model"=>"user.pw_a"}
-          %input{"placeholder"=>"2", "name"=>"password", "type"=>"password", "ng-model"=>"user.pw_b"} 
-          %input{"placeholder"=>"3", "name"=>"password", "type"=>"password", "ng-model"=>"user.pw_c"}
-          %input{"placeholder"=>"4", "name"=>"password", "type"=>"password", "ng-model"=>"user.pw_d"}
+          %input{"placeholder"=>"1", "name"=>"password", "type"=>"password", "ng-model"=>"bookiesUser.pw_a", "maxlength" => "1", "required" => true, "ng-keyUp" => "focusNextInput($event)"}
+          %input{"placeholder"=>"2", "name"=>"password", "type"=>"password", "ng-model"=>"bookiesUser.pw_b", "maxlength" => "1", "required" => true, "ng-keyUp" => "focusNextInput($event)"} 
+          %input{"placeholder"=>"3", "name"=>"password", "type"=>"password", "ng-model"=>"bookiesUser.pw_c", "maxlength" => "1", "required" => true, "ng-keyUp" => "focusNextInput($event)"}
+          %input{"placeholder"=>"4", "name"=>"password", "type"=>"password", "ng-model"=>"bookiesUser.pw_d", "maxlength" => "1", "required" => true, "ng-keyUp" => "focusNextInput($event)"}
 
-      %input{"value"=>"LOG IN !!!","type"=>"submit","ng-click"=>"logIn()"} 
-
+      %input.log-in-button{"value"=>"Log In","type"=>"submit"}
         %div.login
           New to Bookies?
           %a{"href"=> "#/signUp"} Sign Up!
