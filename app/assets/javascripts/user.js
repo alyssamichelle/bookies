@@ -2,10 +2,12 @@ bookies.controller('userController', ['$rootScope', '$scope', 'angularFire', 'an
   $scope.$route = $route;
   
   $scope.logIn = function(){
-    $scope.user.password = $scope.user.pw_a + $scope.user.pw_b + $scope.user.pw_c + $scope.user.pw_d;
-    angularFireAuth.login('password', $scope.user).then(function(){
+    $('.log-in-button').attr('disabled', true);
+    $scope.bookiesUser.password = $scope.bookiesUser.pw_a + $scope.bookiesUser.pw_b + $scope.bookiesUser.pw_c + $scope.bookiesUser.pw_d;
+    angularFireAuth.login('password', $scope.bookiesUser).then(function(){
     },function(err){
-      console.log('Oh Bother, something has gone terribly wrong with sign up. Please try again.', err);
+      $('.log-in-button').removeAttr('disabled');
+      alert('Oh Bother, something has gone terribly wrong. Please try again.', err);
     });
   };
 
@@ -18,20 +20,27 @@ bookies.controller('userController', ['$rootScope', '$scope', 'angularFire', 'an
   });
 
   $scope.createUser = function(){
-    $scope.user.password = $scope.user.pw_a + $scope.user.pw_b + $scope.user.pw_c + $scope.user.pw_d;
+    $('.sign-up-button').attr('disabled', true);
+    $scope.bookiesUser.password = $scope.bookiesUser.pw_a + $scope.bookiesUser.pw_b + $scope.bookiesUser.pw_c + $scope.bookiesUser.pw_d;
     // Creating a user with angularFireAuth who either returns a user object or an error
-    angularFireAuth.createUser($scope.user.email, $scope.user.password, function(err, user){
+
+    angularFireAuth.createUser($scope.bookiesUser.email, $scope.bookiesUser.password, function(err, user){
+      console.log('err',err);
+
       if(user){
-        $rootScope.userInfo = {};
-        var userRef = new Firebase('https://anicoll-livechat.firebaseio.com/Users/' + $rootScope.firebaseUser.id );
-        angularFire(userRef, $rootScope, 'userInfo').then(function(){
-          $rootScope.userInfo.email = $scope.user.email;
-          $rootScope.userInfo.first_name = $scope.user.first_name;
-          $rootScope.userInfo.last_name = $scope.user.last_name;
-          $rootScope.userInfo.password = $scope.user.password;
+        $scope.angularFireUser = {};
+        var userRef = new Firebase('https://anicoll-livechat.firebaseio.com/Users/' + user.id );
+        angularFire(userRef, $scope, 'angularFireUser').then(function(){
+          $scope.angularFireUser = {
+            email     : $scope.bookiesUser.email,
+            first_name: $scope.bookiesUser.first_name,
+            last_name : $scope.bookiesUser.last_name,
+            password  : $scope.bookiesUser.password
+          }
         });
       }else{
-      console.log('Error : ', err);
+        $('.sign-up-button').removeAttr('disabled');
+        console.log('Error : ', err);
       }
     });
   };
@@ -43,5 +52,17 @@ bookies.controller('userController', ['$rootScope', '$scope', 'angularFire', 'an
     return true;
   };
 
+  $scope.focusNextInput = function(event){
+    var $input = $(event.target);
+    if(event.keyCode == 8){
+      if ($input.val() == '') {
+        $input.prev().focus();
+      }
+    } else {
+      if ($input.next().length > 0) {
+        $input.next().focus();
+      }
+    }
+  };
 
 }]);
