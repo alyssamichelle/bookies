@@ -14,7 +14,7 @@ bookies.config(['$routeProvider', function($routeProvider){
       authRequired: true,
       activeTab: 'schedule'
     })
-    .when("/schedulePrint",{
+    .when("/schedulePrint/:currentDay",{
       templateUrl: '/schedulePrint',
       controller: "scheduleController",
       authRequired: true,
