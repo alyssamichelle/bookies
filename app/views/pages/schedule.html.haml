@@ -6,11 +6,10 @@
         %h3.custom-month-year
           %span#custom-month.custom-month {{monthFull}}
           %span#custom-year.custom-year {{year}}
-          %nav.schedule-nav
-            / %a#custom-current.custom-current{"title" => "Print This Month", "href"=>"/schedulePrint"} Print
-            %span.custom-prev{"ng-click" => "previous()"}
-            %span.custom-next{"ng-click" => "next()"}
-            %span.custom-current{"title" => "Go to current date", "ng-click"=>"current()"}
+        %nav.schedule-nav
+          %span.custom-prev{"ng-click" => "previous()"}
+          %span.custom-next{"ng-click" => "next()"}
+          %a.print-schedule{"title" => "Print This Schedule","href"=>"#/schedulePrint/{{currentSelector}}"}
             
       #calendar.fc-calendar-container
         .calendar.fc-calendar.fc-five-rows
@@ -29,7 +28,8 @@
                 %span.fc-date {{ Date.create(currentDay.date).format('{d}') }}
                 %span.fc-weekday {{ Date.create(currentDay.date).format('{dow}') }}
                 .shifts{"class"=>"columns-{{currentDay.shifts.length}}"}
-                  %div.shift{"ng-repeat" => "(index, shift) in currentDay.shifts", "class"=>"columns-{{shift.available}}"}
-                    %h3 {{shift.name}}
-                    %span{"ng-repeat" => "(id, user) in shift.user_ids", "ng-click" => "dropShiftOption(currentDay, index, id)", "class" => "users-names"} {{id}}
+                  %div.shift{"ng-repeat" => "(shiftIndex, shift) in currentDay.shifts", "class"=>"columns-{{shift.available}}"}
+                    %h3 {{shift.name}} 
+                    %h4 {{shift.start}}{{shift.startMeridiem}} till {{shift.end}}{{shift.endMeridiem}}
+                    %div{"ng-repeat" => "(id, user) in shift.user_ids", "ng-click" => "dropShiftOption(currentDay, shiftIndex, id)", "class" => "users-names"} {{user.name | initial}}
                     .shift-claim-button{"class" => "{{shift.name}} {{shift.user_ids[firebaseUser.id].status}}", "ng-repeat" => "i in getNumber(shift.available)", "ng-click" => "shiftStuffing(currentDay, shift.id, shift.user_ids[firebaseUser.id].status)", "ng-show" => "createClaimButtons(shift, $index)"}
