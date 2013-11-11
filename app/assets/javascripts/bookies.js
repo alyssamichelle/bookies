@@ -1,4 +1,4 @@
-var bookies = angular.module('bookies', ['firebase', 'ngRoute']);
+var bookies = angular.module('bookies', ['firebase', 'ngRoute', '$strap']);
 bookies.masterUrl = 'https://anicoll-livechat.firebaseio.com';
 
 bookies.run(['angularFireAuth',"Firebase","$rootScope",'angularFire','$location', 'notify', function(angularFireAuth,Firebase,$rootScope,angularFire,$location, notify){
@@ -10,16 +10,16 @@ bookies.run(['angularFireAuth',"Firebase","$rootScope",'angularFire','$location'
       $rootScope.userInfo = {};
       var userRef = new Firebase('https://anicoll-livechat.firebaseio.com/Users/' + $rootScope.firebaseUser.id );
       angularFire(userRef, $rootScope, 'userInfo').then(function(){
-        $location.path("/schedule");
 
         var notifyInfo = {
-          title: $rootScope.userInfo.first_name + ' Logged In.',
-          text: 'using ' + $rootScope.userInfo.email,
-          icon: 'vampire',
-          type: 'success',
-          width: '300px'
+          title:  'Velcome ' + $rootScope.userInfo.first_name,
+          text:   'mu-ha-ha',
+          icon:   'vampire',
+          type:   'success',
+          width:  '300px'
         }
         notify(notifyInfo);
+        $location.path("/schedule");
       });
 
     }
@@ -49,6 +49,17 @@ bookies.filter('startFrom',['$filter',function($filter){
   }
 }]);
 
+bookies.filter('initial',['$filter',function($filter){
+  return function(name){
+    if(name){
+      var initial = $(name).splice(0,1);
+      console.log('initial: ',initial);
+      return initial;
+    }
+    console.log('name: ',name);
+  }
+}]);
+
 bookies.factory('notify', function () {
   return function(notifyInfo){
     $.pnotify({
@@ -59,7 +70,7 @@ bookies.factory('notify', function () {
       width: notifyInfo.width || 'auto',
       closer: true,
       closer_hover: true,
-      delay: 1000
+      delay: 3000
     });
   };
 });  
