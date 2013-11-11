@@ -1,1 +1,18 @@
+%div.print-page-wrapper{"ng-controller" => "scheduleController"}
 %h1 Print This Months Schedule
+
+%table
+  %tr{"ng-repeat" => "shift in userShiftArray"}
+    %th 
+      {{shift.date}} {{shift.day}}
+    %td
+      %label Time In
+      %h1 {{shift.start}}
+      %select{"ng-model"=>"shift.start"}
+        %option{"value"=>"1:00"} 1
+        %option{"value"=>"2:00"} 2
+    %td
+      %label Time Out
+      %h1 {{shift.end}}
+  %tr
+    %td 10 Total Hours
