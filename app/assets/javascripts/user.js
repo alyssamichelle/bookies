@@ -59,7 +59,7 @@ bookies.controller('userController', ['$rootScope', '$scope', 'angularFire', 'an
         $input.prev().focus();
       }
     } else {
-      if ($input.next().length > 0) {
+      if ($input.next().length > 0 && event.keyCode != 9) {
         $input.next().focus();
       }
     }
