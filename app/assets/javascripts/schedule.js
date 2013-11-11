@@ -1,35 +1,50 @@
-bookies.controller('scheduleController', ['$rootScope','$scope', 'angularFire', '$route', 'notify', function ($rootScope, $scope, angularFire, $route, notify){
+bookies.controller('scheduleController', ['$rootScope','$scope', 'angularFire', '$route', 'notify', '$location','$timeout', '$routeParams', function ($rootScope, $scope, angularFire, $route, notify, $location,$timeout, $routeParams){
   $scope.$route = $route;
   var id = first_name = last_name = '';
   $scope.Date = Date;
   $scope.Object = Object;
   var monthModifier;
 
+  $(window).on('resize', function(){
+    resize();
+  });
+
+  var resize = function() {
+    setTimeout(function() {
+      var width = $('div.shift div').width();
+      $('div.shift div').css({'height': width})
+    }, 1000);
+  };resize();
+
+  $scope.$watch("schedule", function(){
+    resize();
+    console.log('watch is being called');
+  });
+
   var firebaseCall = function(){
     // Getting the FireBase Schedule For the displaying month //
-    var ref = new Firebase('https://anicoll-livechat.firebaseio.com/Schedule/' + currentSelector);
+    var ref = new Firebase('https://anicoll-livechat.firebaseio.com/Schedule/' + $scope.currentSelector);
     if ($scope.unbindSchedule) {
       $scope.unbindSchedule()
     }
     $scope.schedule = {};
     angularFire(ref, $scope, 'schedule').then(function(something){
       $scope.unbindSchedule = something;
+      // resize();
     }, function(){
       console.log('There was an error when trying to get the months information.');
     });
   }; 
 
-  var currentSelector;
+  $scope.currentSelector;
   var setMonth = function() {
     var keyRef = new Firebase('https://anicoll-livechat.firebaseio.com/ScheduleKeys/');
     angularFire(keyRef, $scope, 'scheduleKeys').then(function() {
       monthModifier = monthModifier || $scope.scheduleKeys.length - 1;
-      currentSelector = $scope.scheduleKeys[monthModifier];
+      $scope.currentSelector = $scope.scheduleKeys[monthModifier];
       firebaseCall();
     });
-  };
-
-  setMonth();
+  }; setMonth();
 
   var getUserInfo = function(){
     id = $rootScope.firebaseUser.id;
@@ -38,11 +53,12 @@ bookies.controller('scheduleController', ['$rootScope','$scope', 'angularFire', 
   };
 
   $scope.shiftStuffing = function(currentDay, shift_index, status) {
-    console.log('status', status)
+    // console.log('status', status)
     if(status == 'inactive'){        
       var notifyInfo = {
         title: 'Already Signed Up For That Shift',
-        text: 'so sorry'
+        text: 'so sorry',
+        icon: 'skull'
       }
       notify(notifyInfo);
       return;
@@ -50,8 +66,8 @@ bookies.controller('scheduleController', ['$rootScope','$scope', 'angularFire', 
 
       getUserInfo();
       var day = Date.create(currentDay.date).format('{MM}-{dd}');
-      console.log('$scope.schedule.days', $scope.schedule.days);
-      console.log('currentDay', currentDay);
+      // console.log('$scope.schedule.days', $scope.schedule.days);
+      // console.log('currentDay', currentDay);
       // $scope...user_ids = itself or {}
       $scope.schedule.days[day].shifts[shift_index].user_ids = $scope.schedule.days[day].shifts[shift_index].user_ids || {};
       // $scope...user_ids[id] = itself or {}
@@ -68,13 +84,13 @@ bookies.controller('scheduleController', ['$rootScope','$scope', 'angularFire', 
   // La Methods Of Awesome //
   $scope.previous = function(){
     monthModifier--;
-    currentSelector = $scope.scheduleKeys[monthModifier];
+    $scope.currentSelector = $scope.scheduleKeys[monthModifier];
     firebaseCall();
   };
 
   $scope.next = function(){
     monthModifier++;
-    currentSelector = $scope.scheduleKeys[monthModifier];
+    $scope.currentSelector = $scope.scheduleKeys[monthModifier];
     firebaseCall();
   };
 
@@ -105,20 +121,24 @@ bookies.controller('scheduleController', ['$rootScope','$scope', 'angularFire', 
   };
 
   $scope.dropShiftOption = function(day, shift, userId){
-    var notice = $.pnotify({
-      title: 'Are you sure you want to drop the ' + day.shifts[shift].name + ' shift for ' + day.date + '?',
-      text: '<a class="confirm-button" href="">Sure thing</a>',
-      styling: 'jqueryui',
-      icon: false,
-      width: 'auto',
-      hide: false,
-      sticker: false,
-      insert_brs: false
-    });
+    console.log('day',day);
+    console.log('shift',shift);
+    console.log('userId',userId);
+      var notice = $.pnotify({
+        title: 'Are you sure you want to drop the ' + day.shifts[shift].name + ' shift for ' + day.date + '?',
+        text: '<a class="confirm-button" ng-click = "dropShift()">Sure thing</a>',
+        styling: 'jqueryui',
+        icon: false,
+        width: 'auto',
+        hide: false,
+        sticker: false,
+        insert_brs: false,
+      });    
 
     notice.find('.confirm-button').on('click', function() {
       $.pnotify_remove_all();
       $scope.dropShift(day, shift, userId);
+
       return false;
     });
   };
@@ -131,10 +151,52 @@ bookies.controller('scheduleController', ['$rootScope','$scope', 'angularFire', 
 
     // Admin functionality
     // TODO: Figure out why changes to $scope.schedule aren't syncing to the world
-    day = Date.create(day.date).format('{MM}-{dd}');
-    console.log(0, $scope.schedule.days[day].shifts[shift].user_ids[userId]);
-    delete $scope.schedule.days[day].shifts[shift].user_ids[userId];
-    console.log(1, $scope.schedule.days[day].shifts[shift]);
+
+    console.log('day :', day);
+    $timeout(function()
+    {
+      
+      day = Date.create(day.date).format('{MM}-{dd}');
+      console.log('day :', shift);
+      console.log(0, $scope.schedule.days[day].shifts[shift].user_ids[userId]);
+      delete $scope.schedule.days[day].shifts[shift].user_ids[userId];
+      console.log(1, $scope.schedule.days[day].shifts[shift].user_ids[userId]);
+    });
+    
+  };
+
+  if($routeParams.currentDay)
+  {
+     gatherPrintInfo($routeParams.currentDay);
+  }
+
+  var gatherPrintInfo = function(days){
+    console.log(days);
+    var month = days;
+    $rootScope.userShiftArray = [];
+    var keys = Object.keys(days);
+    console.log('keys',keys);
+
+    // for shifts in the month loop
+    for (var i = 0; i < keys.length; i++) {
+      // for users in shifts loop
+      var shifts = month[keys[i]].shifts;
+      console.log('shifts',shifts);
+
+      for (var a = 0; a < shifts.length; a++) {
+        var user_ids = Object.keys(shifts[a].user_ids);
+        console.log('user_ids',user_ids);
+
+        for (var b = 0; b < user_ids.length; b++) {
+          //check if our current user is in them
+          if(user_ids[b] == $rootScope.firebaseUser.id){
+            $rootScope.userShiftArray.push(shifts[a]);
+            console.log($scope.userShiftArray);
+          }
+        };
+      };
+    };
+
   };
 
 }]);
