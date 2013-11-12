@@ -3,4 +3,4 @@
 
 require File.expand_path('../config/application', __FILE__)
 
-LiveChat::Application.load_tasks
+Bookies::Application.load_tasks
