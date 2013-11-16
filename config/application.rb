@@ -23,5 +23,6 @@ module Bookies
     # Adding the fonts directory to the Rails asset pipeline.
     config.assets.paths << "#{Rails.root}/app/assets/fonts"
     config.assets.paths << "#{Rails.root}/vendor/assets/font"
+    config.assets.precompile += %w(jquery.js angular-route.js angular.js angularFire.js demo.css)
   end
 end
