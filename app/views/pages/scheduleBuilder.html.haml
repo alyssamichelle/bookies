@@ -1,6 +1,5 @@
 .form-wrapper{"ng-controller" => "scheduleBuilderController"}
   %form.schedule-builder{"ng-submit"=>"createSchedule()"}
-    #form_notice This is what the notification will say
     %h1
       New
       %strong{"slab-text" => true} Schedule
@@ -13,6 +12,10 @@
       .field-container{"class"=>"formItem span4"}
         %label{"for"=>"endOfMonth"} End of Month
         %input{"type" => "date", "ng-model"=>"form_month.endOfMonth", "id"=>"endOfMonth"}
+
+      .field-container{"class"=>"formItem span4"}
+        %label{"for"=>"endOfMonth"} This Month is Mostly
+        %select{"drop-down" => true, "ng-model" => "form_month.mostly", "ng-options" => "value.id as value.name for (key, value) in monthSelects", "bs-select" => true}
 
       .field-container{"class"=>"formItem span2"}
         %label{"for"=>"numberOfShiftBlocks"} Number of Shift Blocks Per Day

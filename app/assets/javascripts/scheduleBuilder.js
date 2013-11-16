@@ -17,6 +17,57 @@ bookies.controller('scheduleBuilderController', ['$rootScope','$scope', 'angular
     }
   ]
 
+  $scope.monthSelects = [
+    {
+      "id": "January",
+      "name": "January"
+    },
+    {
+      "id": "Febuary",
+      "name": "Febuary"
+    },
+    {
+      "id": "March",
+      "name": "March"
+    },
+    {
+      "id": "April",
+      "name": "April"
+    },
+    {
+      "id": "May",
+      "name": "May"
+    },
+    {
+      "id": "June",
+      "name": "June"
+    },
+    {
+      "id": "July",
+      "name": "July"
+    },
+    {
+      "id": "August",
+      "name": "August"
+    },
+    {
+      "id": "September",
+      "name": "September"
+    },
+    {
+      "id": "October",
+      "name": "October"
+    },
+    {
+      "id": "November",
+      "name": "November"
+    },
+    {
+      "id": "December",
+      "name": "December"
+    }
+  ]
+
   $scope.timeSelects = {
     "01:00":{
       "id": "1:00",
