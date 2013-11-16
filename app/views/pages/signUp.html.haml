@@ -1,13 +1,22 @@
 %div.form-wrapper
   %form.signUpForm{"ng-controller"=>"userController", "ng-submit"=>"createUser()"}
-    %h1{"slab-text"=>true} Welcome to bookies!
+    %h1{"slab-text"=>true} 
+      Welcome to 
+      %strong{"slab-text"=>true} bookies!
     .fields-container
-      %input{"placeholder"=>"email@emailMcEmailerson", "name"=>"email", "type"=>"email", "ng-model"=>"bookiesUser.email", "required" => true}
+
       .field-container
         %input.first_name{"placeholder"=>"First Name", "name"=>"first_name", "type"=>"text", "ng-model"=>"bookiesUser.first_name", "required" => true}
 
       .field-container
         %input.last_name{"placeholder"=>"Last Name", "name"=>"last_name", "type"=>"text", "ng-model"=>"bookiesUser.last_name", "required" => true}
+        
+      .field-container
+        %input.signUpEmail{"placeholder"=>"email@emailMcEmailerson", "name"=>"email", "type"=>"email", "ng-model"=>"bookiesUser.email", "required" => true}
+        / %div.emailNote You will not be able to change this, so make it one you use most often.
+
+      .field-container
+        %input.last_name{"placeholder"=>"407-918-1452", "name"=>"phone", "type"=>"tel", "ng-model"=>"bookiesUser.phone", "required" => true}
 
       %div.password
         %span.pin{"slab-text"=>true} Pin:

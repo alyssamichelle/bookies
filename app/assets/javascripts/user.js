@@ -25,7 +25,7 @@ bookies.controller('userController', ['$rootScope', '$scope', 'angularFire', 'an
     // Creating a user with angularFireAuth who either returns a user object or an error
 
     angularFireAuth.createUser($scope.bookiesUser.email, $scope.bookiesUser.password, function(err, user){
-      console.log('err',err);
+      // console.log('err',err);
 
       if(user){
         $scope.angularFireUser = {};
@@ -33,6 +33,8 @@ bookies.controller('userController', ['$rootScope', '$scope', 'angularFire', 'an
         angularFire(userRef, $scope, 'angularFireUser').then(function(){
           $scope.angularFireUser = {
             email     : $scope.bookiesUser.email,
+            phone     : $scope.bookiesUser.phone,
+            type      : "student",
             first_name: $scope.bookiesUser.first_name,
             last_name : $scope.bookiesUser.last_name,
             password  : $scope.bookiesUser.password
@@ -64,5 +66,13 @@ bookies.controller('userController', ['$rootScope', '$scope', 'angularFire', 'an
       }
     }
   };
+
+  $scope.userSettings = $rootScope.userInfo;
+
+  $scope.saveSettings = function(){
+    $rootScope.userInfo = $scope.userSettings;
+    // create notification here that settings were saved
+    console.log('asdfaf', $scope.userSettings);
+  }
 
 }]);
