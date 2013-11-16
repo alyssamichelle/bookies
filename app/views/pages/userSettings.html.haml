@@ -1,18 +1,20 @@
-%div.userSettingsPage{"ng-show"=> "userInfo", "ng-controller"=>"userController"}
+%div.userSettingsPage{"ng-show"=> "userSettings", "ng-controller"=>"userController"}
   .form-wrapper
-    %form
-      %h1{"slab-text"=>true}
-        Settings
+    %form{"ng-submit"=>"saveSettings()"}
+    %h1
+      Edit Your
+      %strong{"slab-text" => true} Settings
       .fields-container
-        .field-container{"ng-repeat"=>"(title, information) in userInfo"}
-          %label {{title}} :
-          %input{"ng-model"=>"information"}
-
-        %input{type: 'submit', value: 'Save Changes'}
-
-  / %form
-  /   %input{"ng-model" => "user.first_name"}
-  /   %input{"ng-model" => "user.last_name"}
-  /   %input{"ng-model" => "user.email"}
-  /   %input{"ng-model" => "user.password"}
-
+        .field-container
+          %label First Name :
+          %input{"ng-model" => "userSettings.first_name"}
+        .field-container
+          %label Last Name :
+          %input{"ng-model"=>"userSettings.last_name"}
+        .field-container
+          %label Last Name :
+          %input{"ng-model"=>"userSettings.phone"}
+        .field-container
+          %label Last Name :
+          %input{"ng-model"=>"userSettings.anotherEmail", "placeholder" => "anotherEmail@gmail.com"}
+        %input{"type" => "submit", "value" => "Save Changes"}
