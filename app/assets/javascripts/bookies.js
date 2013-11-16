@@ -6,11 +6,13 @@ bookies.run(['angularFireAuth',"Firebase","$rootScope",'angularFire','$location'
     // here is where you put the default path
     angularFireAuth.initialize(ref,{'name' : 'firebaseUser', 'path' : '/logIn', 'scope': $rootScope});
   
+    var dis; 
     var userInfoCreation = function(){
       $rootScope.userInfo = {};
       var userRef = new Firebase('https://anicoll-livechat.firebaseio.com/Users/' + $rootScope.firebaseUser.id );
-      angularFire(userRef, $rootScope, 'userInfo').then(function(){
+      angularFire(userRef, $rootScope, 'userInfo').then(function(diss){
 
+        dis = diss;
         var notifyInfo = {
           title:  'Velcome ' + $rootScope.userInfo.first_name,
           text:   'mu-ha-ha',
@@ -26,6 +28,10 @@ bookies.run(['angularFireAuth',"Firebase","$rootScope",'angularFire','$location'
 
     $rootScope.$on("angularFireAuth:login", function() {
       userInfoCreation();
+    });
+    $rootScope.$on("angularFireAuth:logout", function() {
+      dis();
+      $rootScope.userInfo = {};
     });
 }]);
 
@@ -52,11 +58,11 @@ bookies.filter('startFrom',['$filter',function($filter){
 bookies.filter('initial',['$filter',function($filter){
   return function(name){
     if(name){
-      var initial = $(name).splice(0,1);
-      console.log('initial: ',initial);
-      return initial;
+      // Rachel kicks javascript butt!
+      var initial = name.split(" ")
+      var initials = initial[0].charAt(0) + initial[1].charAt(0);
+      return initials;
     }
-    console.log('name: ',name);
   }
 }]);
 
