@@ -28,8 +28,8 @@ bookies.controller('scheduleController', ['$rootScope','$scope', 'angularFire', 
       $scope.unbindSchedule()
     }
     $scope.schedule = {};
-    angularFire(ref, $scope, 'schedule').then(function(something){
-      $scope.unbindSchedule = something;
+    angularFire(ref, $scope, 'schedule').then(function(dis){
+      $scope.unbindSchedule = dis;
       // resize();
     }, function(){
       console.log('There was an error when trying to get the months information.');
