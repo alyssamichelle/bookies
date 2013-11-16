@@ -1,0 +1,24 @@
+%div.form-wrapper
+  %form.signUpForm{"ng-controller"=>"staffController"}
+    %h1{"slab-text"=>true} 
+      Library 
+      %strong{"slab-text"=>true} Staff
+
+
+    %table.staff
+      %tbody
+        %tr
+          %th First Name
+          %th Last Name
+          %th Email
+          %th Phone
+          %th Type
+
+        %tr{"ng-repeat"=>"user in angularFireUsers"}
+          %td.firstName {{user.first_name}}
+          %td {{user.last_name}}
+          %td {{user.email}}
+          %td {{user.phone}}
+          %td 
+            %select{"drop-down" => true, "ng-model" => "user.type", "ng-options" => "value.id as value.name for (key, value) in staffTypeSelect", "bs-select" => true}
+      

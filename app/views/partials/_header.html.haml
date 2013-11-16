@@ -7,6 +7,8 @@
     %li{"ng-show" => "firebaseUser"}
       %a{"href"=> "#/scheduleBuilder", "ng-class"=> "{active : $route.current.activeTab == 'scheduleBuilder'}" } Create Schedule    
     %li{"ng-show" => "firebaseUser"}
+      %a{"href"=> "#/staff", "ng-class"=> "{active : $route.current.activeTab == 'staff'}" } Staff    
+    %li{"ng-show" => "firebaseUser"}
       %a{"href"=> "#/userSettings", "ng-class"=> "{active : $route.current.activeTab == 'userSettings'}"} Settings
     %li
       %a{"ng-show"=>"firebaseUser", "ng-click" => "logOut()", "ng-class"=> "{active : $route.current.activeTab == 'logOut'}"} Log Out
