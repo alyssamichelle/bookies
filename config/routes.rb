@@ -9,6 +9,7 @@ Bookies::Application.routes.draw do
   get 'logIn' => 'pages#logIn'
   get 'signUp' => 'pages#signUp'
   get 'userSettings' => 'pages#userSettings'
+  get 'staff' => 'pages#staff'
 
   get 'schedule' => 'pages#schedule'
   get 'schedulePrint' => 'pages#schedulePrint'
