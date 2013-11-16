@@ -43,5 +43,11 @@ bookies.config(['$routeProvider', function($routeProvider){
       controller: "userController",
       authRequired: true,
       activeTab: 'userSettings'
+    })
+    .when("/staff",{
+      templateUrl: '/staff',
+      controller: "staffController",
+      authRequired: true,
+      activeTab: 'staff'
     });
 }]);
