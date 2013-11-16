@@ -4,8 +4,7 @@
       .custom-header
         %h2 Schedule
         %h3.custom-month-year
-          %span#custom-month.custom-month {{monthFull}}
-          %span#custom-year.custom-year {{year}}
+          %span#custom-month.custom-month {{schedule.mostly}}
         %nav.schedule-nav
           %span.custom-prev{"ng-click" => "previous()"}
           %span.custom-next{"ng-click" => "next()"}
@@ -31,5 +30,5 @@
                   %div.shift{"ng-repeat" => "(shiftIndex, shift) in currentDay.shifts", "class"=>"columns-{{shift.available}}"}
                     %h3 {{shift.name}} 
                     %h4 {{shift.start}}{{shift.startMeridiem}} till {{shift.end}}{{shift.endMeridiem}}
-                    %div{"ng-repeat" => "(id, user) in shift.user_ids", "ng-click" => "dropShiftOption(currentDay, shiftIndex, id)", "class" => "users-names"} {{user.name | initial}}
+                    %div{"ng-repeat" => "(id, user) in shift.user_ids", "ng-click" => "dropShiftOption(currentDay, shiftIndex, id)", "class" => "users-names", "title" => "{{user.name}}"} {{user.name | initial}}
                     .shift-claim-button{"class" => "{{shift.name}} {{shift.user_ids[firebaseUser.id].status}}", "ng-repeat" => "i in getNumber(shift.available)", "ng-click" => "shiftStuffing(currentDay, shift.id, shift.user_ids[firebaseUser.id].status)", "ng-show" => "createClaimButtons(shift, $index)"}
