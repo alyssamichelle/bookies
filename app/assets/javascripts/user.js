@@ -15,10 +15,6 @@ bookies.controller('userController', ['$rootScope', '$scope', 'angularFire', 'an
     angularFireAuth.logout();
   };
 
-  $scope.$on('angularFireAuth:logout', function(evt){
-    $location.path("/logIn");
-  });
-
   $scope.createUser = function(){
     $('.sign-up-button').attr('disabled', true);
     $scope.bookiesUser.password = $scope.bookiesUser.pw_a + $scope.bookiesUser.pw_b + $scope.bookiesUser.pw_c + $scope.bookiesUser.pw_d;
