@@ -1,7 +1,6 @@
-bookies.config(['$routeProvider', function($routeProvider){
+bookies.config(['$routeProvider','$rootScope', '$q', function($routeProvider, $rootScope, $q){
   console.log('routes.js running: ' , $routeProvider);
   $routeProvider
-  
     .when("/",{
       templateUrl: '/schedule',
       controller: "scheduleController",
