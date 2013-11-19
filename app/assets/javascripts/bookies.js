@@ -1,11 +1,11 @@
 var bookies = angular.module('bookies', ['firebase', 'ngRoute', '$strap']);
 bookies.masterUrl = 'https://anicoll-livechat.firebaseio.com';
 
+
 bookies.run(['angularFireAuth',"Firebase","$rootScope",'angularFire','$location', 'notify', function(angularFireAuth,Firebase,$rootScope,angularFire,$location, notify){
     var ref = new Firebase(bookies.masterUrl);
     // here is where you put the default path
     angularFireAuth.initialize(ref,{'name' : 'firebaseUser', 'path' : '/logIn', 'scope': $rootScope});
-  
     var dis; 
     var userInfoCreation = function(){
       $rootScope.userInfo = {};
@@ -30,8 +30,12 @@ bookies.run(['angularFireAuth',"Firebase","$rootScope",'angularFire','$location'
       userInfoCreation();
     });
     $rootScope.$on("angularFireAuth:logout", function() {
-      dis();
-      $rootScope.userInfo = {};
+      if(dis)
+      {
+        dis();
+        $rootScope.userInfo = {};
+      }
+      $location.path("/logIn");
     });
 }]);
 
