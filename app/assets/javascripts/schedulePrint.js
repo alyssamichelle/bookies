@@ -1,9 +1,9 @@
 bookies.controller('schedulePrintController', ['$rootScope','$scope', 'angularFire', '$route', 'notify', '$location','$timeout', '$routeParams', function ($rootScope, $scope, angularFire, $route, notify, $location,$timeout, $routeParams){
   $scope.$route = $route;
 
-  gatherPrintInfo($routeParams.currentDay);
+  // gatherPrintInfo($routeParams.currentDay);
 
-  console.log(days);
+  console.log('days', days);
   var month = days;
   $rootScope.userShiftArray = [];
   var keys = Object.keys(days);
