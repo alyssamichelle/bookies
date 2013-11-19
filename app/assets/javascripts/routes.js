@@ -8,7 +8,7 @@ bookies.config(['$routeProvider', function($routeProvider){
       authRequired: true,
       activeTab: 'schedule',
       resolve: {
-        'auth' : function($rootScope, $q){
+        'auth' :['$rootScope', '$q', function($rootScope, $q){
           if($rootScope.userInfo.type && $rootScope.userInfo.type == 'student'){
             return true;
           }else if($rootScope.userInfo.type && $rootScope.userInfo.type == 'admin'){
@@ -17,7 +17,7 @@ bookies.config(['$routeProvider', function($routeProvider){
             alert('No, No, No, You Are Not Authorized!');
             return $q.reject('Not Authenticated');
           }
-        }
+        }]
       }
     })
     .when("/schedule",{
@@ -26,7 +26,7 @@ bookies.config(['$routeProvider', function($routeProvider){
       authRequired: true,
       activeTab: 'schedule',
       resolve: {
-        'auth' : function($rootScope, $q){
+        'auth' : ['$rootScope', '$q', function($rootScope, $q){
           if($rootScope.userInfo.type && $rootScope.userInfo.type == 'student'){
             return true;
           }else if($rootScope.userInfo.type && $rootScope.userInfo.type == 'admin'){
@@ -35,7 +35,7 @@ bookies.config(['$routeProvider', function($routeProvider){
             alert('No, No, No, You Are Not Authorized!');
             return $q.reject('Not Authenticated');
           }
-        }
+        }]
       }
     })
     .when("/schedulePrint/:currentDay",{
@@ -44,7 +44,7 @@ bookies.config(['$routeProvider', function($routeProvider){
       authRequired: true,
       activeTab: 'schedulePrint',
       resolve: {
-        'auth' : function($rootScope, $q){
+        'auth' : ['$rootScope', '$q', function($rootScope, $q){
           if($rootScope.userInfo.type && $rootScope.userInfo.type == 'student'){
             return true;
           }else if($rootScope.userInfo.type && $rootScope.userInfo.type == 'admin'){
@@ -54,7 +54,7 @@ bookies.config(['$routeProvider', function($routeProvider){
             alert('No, No, No, You Are Not Authorized!');
             return $q.reject('Not Authenticated');
           }
-        }
+        }]
       }
     })
     .when("/scheduleBuilder",{
@@ -63,7 +63,7 @@ bookies.config(['$routeProvider', function($routeProvider){
       authRequired: true,
       activeTab: 'scheduleBuilder',
       resolve: {
-        'auth' : function($rootScope, $q){
+        'auth' : ['$rootScope', '$q', function($rootScope, $q){
           if($rootScope.userInfo.type && $rootScope.userInfo.type == 'student'){
             alert('No, No, No, You Are Not Authorized!');
             return $q.reject('Not Authenticated');
@@ -73,7 +73,7 @@ bookies.config(['$routeProvider', function($routeProvider){
             alert('No, No, No, You Are Not Authorized!');
             return $q.reject('Not Authenticated');
           }
-        }
+        }]
       }
     })
     .when("/signUp",{
@@ -94,7 +94,7 @@ bookies.config(['$routeProvider', function($routeProvider){
       authRequired: true,
       activeTab: 'userSettings',
       resolve: {
-        'auth' : function($rootScope, $q){
+        'auth' : ['$rootScope', '$q', function($rootScope, $q){
           if($rootScope.userInfo.type && $rootScope.userInfo.type == 'student'){
             return true;
           }else if($rootScope.userInfo.type && $rootScope.userInfo.type == 'admin'){
@@ -103,7 +103,7 @@ bookies.config(['$routeProvider', function($routeProvider){
             alert('No, No, No, You Are Not Authorized!');
             return $q.reject('Not Authenticated');
           }
-        }
+        }]
       }
     })
     .when("/staff",{
@@ -112,7 +112,7 @@ bookies.config(['$routeProvider', function($routeProvider){
       authRequired: true,
       activeTab: 'staff',
       resolve: {
-        'auth' : function($rootScope, $q){
+        'auth' : ['$rootScope', '$q', function($rootScope, $q){
           if($rootScope.userInfo.type && $rootScope.userInfo.type == 'student'){
             alert('No, No, No, You Are Not Authorized!');
             return $q.reject('Not Authenticated');
@@ -122,7 +122,7 @@ bookies.config(['$routeProvider', function($routeProvider){
             alert('No, No, No, You Are Not Authorized!');
             return $q.reject('Not Authenticated');
           }
-        }
+        }]
       }
     });
 }]);
