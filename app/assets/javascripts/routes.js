@@ -6,25 +6,75 @@ bookies.config(['$routeProvider', function($routeProvider){
       templateUrl: '/schedule',
       controller: "scheduleController",
       authRequired: true,
-      activeTab: 'schedule'
+      activeTab: 'schedule',
+      resolve: {
+        'auth' : function($rootScope, $q){
+          if($rootScope.userInfo.type && $rootScope.userInfo.type == 'student'){
+            return true;
+          }else if($rootScope.userInfo.type && $rootScope.userInfo.type == 'admin'){
+            return true;
+          }else if($rootScope.userInfo.type && $rootScope.userInfo.type == 'inactive'){
+            alert('No, No, No, You Are Not Authorized!');
+            return $q.reject('Not Authenticated');
+          }
+        }
+      }
     })
     .when("/schedule",{
       templateUrl: '/schedule',
       controller: "scheduleController",
       authRequired: true,
-      activeTab: 'schedule'
+      activeTab: 'schedule',
+      resolve: {
+        'auth' : function($rootScope, $q){
+          if($rootScope.userInfo.type && $rootScope.userInfo.type == 'student'){
+            return true;
+          }else if($rootScope.userInfo.type && $rootScope.userInfo.type == 'admin'){
+            return true;
+          }else if($rootScope.userInfo.type && $rootScope.userInfo.type == 'inactive'){
+            alert('No, No, No, You Are Not Authorized!');
+            return $q.reject('Not Authenticated');
+          }
+        }
+      }
     })
     .when("/schedulePrint/:currentDay",{
       templateUrl: '/schedulePrint',
       controller: "scheduleController",
       authRequired: true,
-      activeTab: 'schedulePrint'
+      activeTab: 'schedulePrint',
+      resolve: {
+        'auth' : function($rootScope, $q){
+          if($rootScope.userInfo.type && $rootScope.userInfo.type == 'student'){
+            return true;
+          }else if($rootScope.userInfo.type && $rootScope.userInfo.type == 'admin'){
+            alert('Must be signed in as a student, to print a schedule.');
+            return $q.reject('Not Authenticated');
+          }else if($rootScope.userInfo.type && $rootScope.userInfo.type == 'inactive'){
+            alert('No, No, No, You Are Not Authorized!');
+            return $q.reject('Not Authenticated');
+          }
+        }
+      }
     })
     .when("/scheduleBuilder",{
       templateUrl: '/scheduleBuilder',
       controller: "scheduleBuilderController",
       authRequired: true,
-      activeTab: 'scheduleBuilder'
+      activeTab: 'scheduleBuilder',
+      resolve: {
+        'auth' : function($rootScope, $q){
+          if($rootScope.userInfo.type && $rootScope.userInfo.type == 'student'){
+            alert('No, No, No, You Are Not Authorized!');
+            return $q.reject('Not Authenticated');
+          }else if($rootScope.userInfo.type && $rootScope.userInfo.type == 'admin'){
+            return true;
+          }else if($rootScope.userInfo.type && $rootScope.userInfo.type == 'inactive'){
+            alert('No, No, No, You Are Not Authorized!');
+            return $q.reject('Not Authenticated');
+          }
+        }
+      }
     })
     .when("/signUp",{
       templateUrl: '/signUp',
@@ -42,12 +92,37 @@ bookies.config(['$routeProvider', function($routeProvider){
       templateUrl: '/userSettings',
       controller: "userController",
       authRequired: true,
-      activeTab: 'userSettings'
+      activeTab: 'userSettings',
+      resolve: {
+        'auth' : function($rootScope, $q){
+          if($rootScope.userInfo.type && $rootScope.userInfo.type == 'student'){
+            return true;
+          }else if($rootScope.userInfo.type && $rootScope.userInfo.type == 'admin'){
+            return true;
+          }else if($rootScope.userInfo.type && $rootScope.userInfo.type == 'inactive'){
+            alert('No, No, No, You Are Not Authorized!');
+            return $q.reject('Not Authenticated');
+          }
+        }
+      }
     })
     .when("/staff",{
       templateUrl: '/staff',
       controller: "staffController",
       authRequired: true,
-      activeTab: 'staff'
+      activeTab: 'staff',
+      resolve: {
+        'auth' : function($rootScope, $q){
+          if($rootScope.userInfo.type && $rootScope.userInfo.type == 'student'){
+            alert('No, No, No, You Are Not Authorized!');
+            return $q.reject('Not Authenticated');
+          }else if($rootScope.userInfo.type && $rootScope.userInfo.type == 'admin'){
+            return true;
+          }else if($rootScope.userInfo.type && $rootScope.userInfo.type == 'inactive'){
+            alert('No, No, No, You Are Not Authorized!');
+            return $q.reject('Not Authenticated');
+          }
+        }
+      }
     });
 }]);
