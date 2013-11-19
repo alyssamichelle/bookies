@@ -9,11 +9,11 @@ bookies.config(['$routeProvider', function($routeProvider){
       activeTab: 'schedule',
       resolve: {
         'auth' :['$rootScope', '$q', function($rootScope, $q){
-          if($rootScope.userInfo.type && $rootScope.userInfo.type == 'student'){
+          if($rootScope.userInfo && $rootScope.userInfo.type == 'student'){
             return true;
-          }else if($rootScope.userInfo.type && $rootScope.userInfo.type == 'admin'){
+          }else if($rootScope.userInfo && $rootScope.userInfo.type == 'admin'){
             return true;
-          }else if($rootScope.userInfo.type && $rootScope.userInfo.type == 'inactive'){
+          }else if($rootScope.userInfo && $rootScope.userInfo.type == 'inactive'){
             alert('No, No, No, You Are Not Authorized!');
             return $q.reject('Not Authenticated');
           }
@@ -27,11 +27,11 @@ bookies.config(['$routeProvider', function($routeProvider){
       activeTab: 'schedule',
       resolve: {
         'auth' : ['$rootScope', '$q', function($rootScope, $q){
-          if($rootScope.userInfo.type && $rootScope.userInfo.type == 'student'){
+          if($rootScope.userInfo && $rootScope.userInfo.type == 'student'){
             return true;
-          }else if($rootScope.userInfo.type && $rootScope.userInfo.type == 'admin'){
+          }else if($rootScope.userInfo && $rootScope.userInfo.type == 'admin'){
             return true;
-          }else if($rootScope.userInfo.type && $rootScope.userInfo.type == 'inactive'){
+          }else if($rootScope.userInfo && $rootScope.userInfo.type == 'inactive'){
             alert('No, No, No, You Are Not Authorized!');
             return $q.reject('Not Authenticated');
           }
@@ -45,12 +45,12 @@ bookies.config(['$routeProvider', function($routeProvider){
       activeTab: 'schedulePrint',
       resolve: {
         'auth' : ['$rootScope', '$q', function($rootScope, $q){
-          if($rootScope.userInfo.type && $rootScope.userInfo.type == 'student'){
+          if($rootScope.userInfo && $rootScope.userInfo.type == 'student'){
             return true;
-          }else if($rootScope.userInfo.type && $rootScope.userInfo.type == 'admin'){
+          }else if($rootScope.userInfo && $rootScope.userInfo.type == 'admin'){
             alert('Must be signed in as a student, to print a schedule.');
             return $q.reject('Not Authenticated');
-          }else if($rootScope.userInfo.type && $rootScope.userInfo.type == 'inactive'){
+          }else if($rootScope.userInfo && $rootScope.userInfo.type == 'inactive'){
             alert('No, No, No, You Are Not Authorized!');
             return $q.reject('Not Authenticated');
           }
@@ -64,12 +64,12 @@ bookies.config(['$routeProvider', function($routeProvider){
       activeTab: 'scheduleBuilder',
       resolve: {
         'auth' : ['$rootScope', '$q', function($rootScope, $q){
-          if($rootScope.userInfo.type && $rootScope.userInfo.type == 'student'){
+          if($rootScope.userInfo && $rootScope.userInfo.type == 'student'){
             alert('No, No, No, You Are Not Authorized!');
             return $q.reject('Not Authenticated');
-          }else if($rootScope.userInfo.type && $rootScope.userInfo.type == 'admin'){
+          }else if($rootScope.userInfo && $rootScope.userInfo.type == 'admin'){
             return true;
-          }else if($rootScope.userInfo.type && $rootScope.userInfo.type == 'inactive'){
+          }else if($rootScope.userInfo && $rootScope.userInfo.type == 'inactive'){
             alert('No, No, No, You Are Not Authorized!');
             return $q.reject('Not Authenticated');
           }
@@ -95,11 +95,11 @@ bookies.config(['$routeProvider', function($routeProvider){
       activeTab: 'userSettings',
       resolve: {
         'auth' : ['$rootScope', '$q', function($rootScope, $q){
-          if($rootScope.userInfo.type && $rootScope.userInfo.type == 'student'){
+          if($rootScope.userInfo && $rootScope.userInfo.type == 'student'){
             return true;
-          }else if($rootScope.userInfo.type && $rootScope.userInfo.type == 'admin'){
+          }else if($rootScope.userInfo && $rootScope.userInfo.type == 'admin'){
             return true;
-          }else if($rootScope.userInfo.type && $rootScope.userInfo.type == 'inactive'){
+          }else if($rootScope.userInfo && $rootScope.userInfo.type == 'inactive'){
             alert('No, No, No, You Are Not Authorized!');
             return $q.reject('Not Authenticated');
           }
@@ -113,12 +113,12 @@ bookies.config(['$routeProvider', function($routeProvider){
       activeTab: 'staff',
       resolve: {
         'auth' : ['$rootScope', '$q', function($rootScope, $q){
-          if($rootScope.userInfo.type && $rootScope.userInfo.type == 'student'){
+          if($rootScope.userInfo && $rootScope.userInfo.type == 'student'){
             alert('No, No, No, You Are Not Authorized!');
             return $q.reject('Not Authenticated');
-          }else if($rootScope.userInfo.type && $rootScope.userInfo.type == 'admin'){
+          }else if($rootScope.userInfo && $rootScope.userInfo.type == 'admin'){
             return true;
-          }else if($rootScope.userInfo.type && $rootScope.userInfo.type == 'inactive'){
+          }else if($rootScope.userInfo && $rootScope.userInfo.type == 'inactive'){
             alert('No, No, No, You Are Not Authorized!');
             return $q.reject('Not Authenticated');
           }
