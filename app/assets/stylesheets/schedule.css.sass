@@ -214,3 +214,42 @@ div.users-names
 nav.schedule-nav > a.print-schedule
   background: image-url("utilities/185-printer@2x.png") no-repeat center center
   background-size: 60%
+
+// Styles kick in at 480px
+@media all and (max-width: 30em)
+  div.custom-header nav
+    right: 20px !important
+
+  .fc-calendar
+    margin: 0
+
+    .fc-row > div
+      margin-bottom: 2em
+      padding: 0
+      background-color: #ddd
+      border: 1px solid #ccc
+      border-radius: 4px 4px 0 0 !important
+      overflow: hidden
+
+      > span.fc-date
+        line-height: 1.1em
+
+      > span.fc-weekday
+        left: 3em
+        line-height: 3em
+
+      > div.shifts
+        margin-top: 2em
+        padding: 1em 1em 0
+        background-color: #fff
+        border-top: 1px solid #ccc
+
+        &.columns-3 > div
+          float: none
+          width: 100%
+          margin: 0 0 1em
+
+          &::after
+            clear: both
+            content: ''
+            display: block
