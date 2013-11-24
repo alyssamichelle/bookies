@@ -1,4 +1,4 @@
-%div.print-page-wrapper{"ng-controller" => "scheduleController"}
+%div.print-page-wrapper{"ng-controller" => "schedulePrintController"}
 %h1 Print This Months Schedule
 
 %table
@@ -7,12 +7,12 @@
       {{shift.date}} {{shift.day}}
     %td
       %label Time In
-      %h1 {{shift.start}}
-      %select{"ng-model"=>"shift.start"}
-        %option{"value"=>"1:00"} 1
-        %option{"value"=>"2:00"} 2
+      %h1 {{shift.start}} {{shift.startMeridiem}}
     %td
       %label Time Out
-      %h1 {{shift.end}}
+      %h1 {{shift.end}} {{shift.endMeridiem}}
+    %td
+      %label Hours
+      %h1 {{shift.start}} - {{shift.end}}
   %tr
     %td 10 Total Hours
