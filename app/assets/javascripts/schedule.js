@@ -12,7 +12,7 @@ bookies.controller('scheduleController', ['$rootScope','$scope', 'angularFire', 
   var resize = function() {
     setTimeout(function() {
       var width = $('div.shift div').width();
-      $('div.shift div').css({'height': width})
+      $('div.shift div').css({'height': width, 'line-height': width + 'px'})
     }, 1000);
   };resize();
 
