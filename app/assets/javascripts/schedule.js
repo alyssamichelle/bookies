@@ -10,14 +10,13 @@ bookies.controller('scheduleController', ['$rootScope','$scope', 'angularFire', 
   });
 
   var resize = function() {
-    setTimeout(function() {
-      var width = $('div.shift div').width();
-      $('div.shift div').css({'height': width, 'line-height': width + 'px'})
-    }, 1000);
-  };resize();
+    var width = $('div.shift div').width();
+    $('div.shift div').css({'height': width, 'line-height': width + 'px'});
+  };
 
+  setTimeout(resize, 1000);
   $scope.$watch("schedule", function(){
-    resize();
+    setTimeout(resize, 0);
     console.log('watch is being called');
   });
 
@@ -63,12 +62,12 @@ bookies.controller('scheduleController', ['$rootScope','$scope', 'angularFire', 
       notify(notifyInfo);
       return;
     }else{
-
       getUserInfo();
       var day = Date.create(currentDay.date).format('{MM}-{dd}');
       // console.log('$scope.schedule.days', $scope.schedule.days);
       // console.log('currentDay', currentDay);
       // $scope...user_ids = itself or {}
+      $scope.schedule.days[day].shifts[shift_index].available -= 1;
       $scope.schedule.days[day].shifts[shift_index].user_ids = $scope.schedule.days[day].shifts[shift_index].user_ids || {};
       // $scope...user_ids[id] = itself or {}
       $scope.schedule.days[day].shifts[shift_index].user_ids[id] = $scope.schedule.days[day].shifts[shift_index].user_ids[id] || {};
@@ -76,8 +75,8 @@ bookies.controller('scheduleController', ['$rootScope','$scope', 'angularFire', 
       $scope.schedule.days[day].shifts[shift_index].user_ids[id].status = 'inactive';
       $scope.schedule.days[day].shifts[shift_index].user_ids[id].name = first_name + ' ' + last_name;
       // Returning the user_ids[id] array we just added to (or newly created)
-      // TO-DO : Does this need to be returned ??
-      return $scope.schedule.days[day].shifts[shift_index].user_ids[id];
+      // TO-DO : Does this need to be returned ??!?!?!?!??!?!!!!
+      // return $scope.schedule.days[day].shifts[shift_index].user_ids[id];
     };
   };
 
@@ -160,6 +159,7 @@ bookies.controller('scheduleController', ['$rootScope','$scope', 'angularFire', 
       console.log('day :', shift);
       console.log(0, $scope.schedule.days[day].shifts[shift].user_ids[userId]);
       delete $scope.schedule.days[day].shifts[shift].user_ids[userId];
+      $scope.schedule.days[day].shifts[shift].available += 1;
       console.log(1, $scope.schedule.days[day].shifts[shift].user_ids[userId]);
     });
     
