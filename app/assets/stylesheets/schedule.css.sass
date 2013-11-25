@@ -158,9 +158,9 @@ div.users-names
 .shift
   h3
 
-  > div, > div
+  > div
     float: left
-    // height: 55px
+    height: 50px
     display: block
     padding: 0
     background-color: rgba(0,0,0,0.1)
@@ -217,8 +217,12 @@ nav.schedule-nav > a.print-schedule
 
 // Styles kick in at 480px
 @media all and (max-width: 30em)
-  div.custom-header nav
-    right: 20px !important
+  div.custom-header
+    padding: 0 20px
+
+    .schedule-nav
+      position: static
+      margin-top: 10px
 
   .fc-calendar
     margin: 0
